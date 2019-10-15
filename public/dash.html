@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons|Ubuntu+Mono">
+
+    <!-- Material Design for Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+          integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
+    <title>KITT - Dashboard</title>
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.2.0/firebaseui.css"/>
+
+    <style>
+        body {
+            font-family: "Ubuntu Mono", sans-serif !important;
+        }
+
+        .main_card {
+            border-radius: 1rem;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="card main_card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Welcome to KITT Dashboard!</h5>
+            <p class="card-text" id="user_info"></p>
+            <hr>
+            <table class="table table-hover" id="food-table">
+                <thead>
+                <tr>
+                    <th scope="col">Food Name</th>
+                    <th scope="col">Expiration Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-raised" data-toggle="modal" data-target="#add-food-modal">
+                Add Food
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="add-food-modal" tabindex="-1" role="dialog" style="border-radius: 1rem">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                    id="modal-close-btn">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="food-name">Food Name</label>
+                                    <input type="text" class="form-control" id="food-name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="food-exp-date">Expiration Date</label>
+                                    <input type="text" class="form-control" id="food-exp-date" placeholder="MM/DD/YYYY">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-raised" onclick="addFood()">Save changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-info" onclick="firebase.auth().signOut()">Sign Out</a>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-analytics.js"></script>
+<script src="https://cdn.firebase.com/libs/firebaseui/4.2.0/firebaseui.js"></script>
+
+<script>
+    // Your web app's Firebase configuration
+    let firebaseConfig = {
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    var database = firebase.database();
+</script>
+<script>
+    'use strict';
+    let current_user;
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            // User is signed in.
+            var displayName = user.displayName;
+            var email = user.email;
+            var emailVerified = user.emailVerified;
+            var photoURL = user.photoURL;
+            var isAnonymous = user.isAnonymous;
+            var uid = user.uid;
+            var providerData = user.providerData;
+            document.getElementById('user_info').innerText = `Current User: ${displayName} <${email}>`;
+            current_user = user;
+            if(current_user != null){
+                database.ref('/users/' + current_user.uid).once('value').then((response) => {
+                    let existList = response.val();
+                    if(existList != null){
+                        for(let j = 0; j < existList.length; j++){
+                            addFood(existList[j]['food-name'], existList[j]['food-exp-date']);
+                        }
+                    }
+                });
+            }
+            // ...
+        } else {
+            window.location.replace('https://kitt-5f677.firebaseapp.com/');
+        }
+    });
+</script>
+<script>
+
+    function addFood(foodName = document.getElementById('food-name').value, foodExpDate = document.getElementById('food-exp-date').value) {
+        let table = document.getElementById('food-table');
+        let newFood = table.insertRow();
+        newFood.insertCell(0).innerText = foodName;
+        newFood.insertCell(1).innerText = foodExpDate;
+        document.getElementById('modal-close-btn').click();
+        database.ref('/users/' + current_user.uid).once('value').then((response) => {
+            let existList = response.val();
+            if(existList == null){
+                existList = [];
+            }
+            existList.push({
+                'food-name': foodName,
+                'food-exp-date': foodExpDate
+            });
+            database.ref('/users/' + current_user.uid).set(existList);
+        })
+    }
+</script>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+        integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+        integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+        crossorigin="anonymous"></script>
+<script>$(document).ready(function () {
+    $('body').bootstrapMaterialDesign();
+});</script>
+</body>
+</html>

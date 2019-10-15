@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons|Ubuntu+Mono">
+
+    <!-- Material Design for Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+          integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
+    <title>KITT</title>
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.2.0/firebaseui.css"/>
+
+    <style>
+        body {
+            font-family: "Ubuntu Mono", sans-serif !important;
+        }
+
+        .login_card {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            width: 50vw;
+            border-radius: 1rem;
+        }
+    </style>
+
+
+</head>
+<body>
+<div class="container">
+    <div class="card login_card">
+        <div class="card-body">
+            <h5 class="card-title">Welcome to KITT!</h5>
+            <h6 class="card-subtitle mb-4 text-muted">Logging in to get started.</h6>
+            <div id="firebaseui-auth-container"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-auth.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-analytics.js"></script>
+<script src="https://cdn.firebase.com/libs/firebaseui/4.2.0/firebaseui.js"></script>
+
+<script>
+    // Your web app's Firebase configuration
+    let firebaseConfig = {
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script>
+    'use strict';
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            // User is signed in.
+            var displayName = user.displayName;
+            var email = user.email;
+            var emailVerified = user.emailVerified;
+            var photoURL = user.photoURL;
+            var isAnonymous = user.isAnonymous;
+            var uid = user.uid;
+            var providerData = user.providerData;
+            console.log(user);
+            // ...
+        } else {
+            // User is signed out.
+            // ...
+        }
+    });
+</script>
+<script type="text/javascript">
+    // FirebaseUI config.
+    var uiConfig = {
+        signInSuccessUrl: 'https://kitt-5f677.firebaseapp.com/dash.html',
+        signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID
+        ],
+        // tosUrl and privacyPolicyUrl accept either url string or a callback
+        // function.
+        // Terms of service url/callback.
+        tosUrl: 'https://kitt-5f677.firebaseapp.com',
+        // Privacy policy url/callback.
+        privacyPolicyUrl: function () {
+            window.location.assign('https://kitt-5f677.firebaseapp.com/404.html');
+        }
+    };
+
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    // The start method will wait until the DOM is loaded.
+    ui.start('#firebaseui-auth-container', uiConfig);
+</script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+        integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+        integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+        crossorigin="anonymous"></script>
+<script>$(document).ready(function () {
+    $('body').bootstrapMaterialDesign();
+});</script>
+</body>
+</html>
