@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".WelcomeActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,15 +22,15 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="200dp"
                 android:gravity="center_horizontal"
-                android:textColor="@android:color/primary_text_light_nodisable"
+                android:textColor="?android:attr/textColorPrimary"
                 android:text="KITT"
                 android:textSize="36sp" />
             <TextView
-                android:id="@+id/welcome_name"
+                android:id="@+id/welcome_name2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:textColor="@android:color/secondary_text_light"
+                android:textColor="?android:attr/textColorSecondary"
                 android:text="Never let food expire again"
                 android:textSize="18sp" />
             <RelativeLayout
@@ -50,18 +50,20 @@
                         android:layout_gravity="center|bottom"
                         android:layout_centerHorizontal="true" />
                 </RelativeLayout>
+
                 <TextView
                     android:id="@+id/textView2"
-                    android:paddingBottom="80dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_alignParentBottom="true"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center|bottom"
-                    android:textColor="@android:color/secondary_text_light"
-                    android:textSize="18sp"
-                    android:layout_centerHorizontal="true"
                     android:layout_height="wrap_content"
-                    android:text="@string/skip" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginTop="20dp"
+                    android:onClick="toHomeScreen"
+                    android:paddingBottom="80dp"
+                    android:text="@string/skip"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="18sp" />
             </RelativeLayout>
 
         </LinearLayout>
