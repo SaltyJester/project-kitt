@@ -4,7 +4,7 @@ public class FoodDetail
 {
     private int foodID;
     private String foodName;
-    private String foodDate;
+    private int foodDate;
 
     public int getFoodID()
     {
@@ -26,12 +26,12 @@ public class FoodDetail
         this.foodName = foodName;
     }
 
-    public String getFoodDate()
+    public int getFoodDate()
     {
         return foodDate;
     }
 
-    public void setFoodDate(String foodDate)
+    public void setFoodDate(int foodDate)
     {
         this.foodDate = foodDate;
     }

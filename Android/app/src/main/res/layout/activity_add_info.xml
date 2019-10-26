@@ -48,12 +48,15 @@
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="18sp" />
 
-            <Button
+            <EditText
                 android:id="@+id/clickDate"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Select Date" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="40dp"
+                android:ems="10"
+                android:inputType="number"
+                android:hint="Enter expiration in YYYYMMDD format" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/enterItem"

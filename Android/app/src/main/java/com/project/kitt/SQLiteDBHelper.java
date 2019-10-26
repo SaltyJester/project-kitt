@@ -20,7 +20,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
     // Create Table Query
     private static String SQL_CREATE_FOOD =
             "CREATE TABLE food (" + KEY_FOOD_ID + " INTEGER PRIMARY KEY, " + KEY_FOOD_NAME + " TEXT, " + KEY_FOOD_DATE
-            + " TEXT );";
+            + " INTEGER );";
 
     public static final String SQL_DELETE_FOOD =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -84,7 +84,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         FoodDetail[] foodDetailsArray = new FoodDetail[length];
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " ORDER BY " + KEY_FOOD_ID + " DESC";
+                + " ORDER BY " + KEY_FOOD_DATE + " DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
 
@@ -97,7 +97,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
                     FoodDetail foodDetail = new FoodDetail();
                     foodDetail.setFoodID(cursor.getInt(0));
                     foodDetail.setFoodName(cursor.getString(1));
-                    foodDetail.setFoodDate(cursor.getString(3));
+                    foodDetail.setFoodDate(cursor.getInt(2));
 
                     foodDetailsArray[i] = foodDetail;
                     i--;
