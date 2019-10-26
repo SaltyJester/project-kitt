@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddInfo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="70dp"
+            android:gravity="center"
+            android:text="ADD ITEM:"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/itemName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Item Name:" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/expDateInput"
+                android:layout_width="133dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:text="Expiration Date:"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/clickDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="40dp"
+                android:ems="10"
+                android:inputType="number"
+                android:hint="Enter expiration in YYYYMMDD format" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/enterItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="16dp"
+                android:onClick="addItemToDB"
+                app:srcCompat="@drawable/ic_done"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
