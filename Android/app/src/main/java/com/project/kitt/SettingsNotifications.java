@@ -12,7 +12,10 @@ public class SettingsNotifications extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_list_notifications);
 
-    
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.settings_container, new MySettingsFragment())
+                .commit();
 
 
     }

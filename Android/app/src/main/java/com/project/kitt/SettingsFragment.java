@@ -40,7 +40,7 @@ public class SettingsFragment extends Fragment{
                 if (i == 1) {
 
                     Intent myIntent= new Intent(view.getContext(), SettingsNotifications.class);
-                    startActivityForResult(myIntent, 0);
+                  //  startActivityForResult(myIntent, 0);
                     myIntent.putExtra("notif", i);
                     startActivity(myIntent);
                 }
