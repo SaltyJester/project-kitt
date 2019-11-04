@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="false"
+
    >
 
     <ImageView
@@ -15,8 +15,7 @@
         android:layout_marginTop="20dp"
         app:srcCompat="@android:drawable/sym_def_app_icon"
         android:contentDescription="TODO"
-        android:focusable="false"
-        android:clickable="false"
+
         />
 
     <TextView
@@ -29,8 +28,7 @@
         android:text="ACCOUNT "
         android:textColor="#1E5A55"
         android:textSize="35sp"
-        android:focusable="false"
-        android:clickable="false"/>
+        />
 
     <ListView
         android:id="@+id/listSettings"
@@ -38,8 +36,6 @@
         android:layout_height="match_parent"
         android:textSize="25sp"
         android:layout_below="@id/textView3"
-        android:focusable="true"
-        android:clickable="true"
         />
 
 
