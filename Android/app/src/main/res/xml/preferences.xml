@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <SwitchPreferenceCompat
-        app:key="notifications"
-        app:title="Enable message notifications"/>
 
-    <Preference
-        app:key="feedback"
-        app:title="Send feedback"
-        app:summary="Report technical issues or suggest new features"/>
+    <PreferenceCategory
+        app:key="notifications category"
+        app:title="Notifications"
+        />
+
+    <SwitchPreferenceCompat
+        app:key="Enable expiry notifications"
+        app:title="Enable expiry notifications"/>
+
+    <ListPreference
+        app:key="notification frequency"
+        app:title="Notification frequency"
+        app:defaultValue="0"
+        app:dialogTitle="Notification frequency"
+        app:entries="@array/notification_entries"
+        app:entryValues="@array/notification_values"
+        app:summary="Change when you get notified"
+        />
+
 </androidx.preference.PreferenceScreen>
