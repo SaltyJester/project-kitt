@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-           Fragment selectedFragment = null;
+           Fragment selectedFragment = new HomeFragment();
            switch (menuItem.getItemId()){
 
                case R.id.nav_home:

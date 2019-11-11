@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="notification_entries">
+        <item>Day of expiry</item>
+        <item>1 day before</item>
+        <item>3 days before</item>
+        <item>1 week before</item>
+    </string-array>
+    <string-array name="notification_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>
