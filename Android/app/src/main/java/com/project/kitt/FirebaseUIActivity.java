@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,11 +28,11 @@ public class FirebaseUIActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firebase_ui);
-        createSignInIntent();
+//        createSignInIntent();
 //        System.out.println("HEY LOOK OVER HERE TO SEE IF I WORK");
     }
 
-    public void createSignInIntent()
+    public void createSignInIntent(View view)
     {
         // [START auth_fui_create_intent]
         // Choose authentication providers
@@ -71,4 +73,16 @@ public class FirebaseUIActivity extends AppCompatActivity {
         }
     }
     // [END auth_fui_result]
+
+    public void signOut(View view) {
+        // [START auth_fui_signout]
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
+        // [END auth_fui_signout]
+    }
 }
