@@ -28,7 +28,10 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.FoodVi
     @Override
     public void onBindViewHolder(FoodViewHolder holder, int position) {
         holder.title.setText(foodList[position].getFoodName());
-        holder.subtitle.setText(String.valueOf(foodList[position].getFoodDate()));
+        String date = String.valueOf(foodList[position].getFoodMon());
+        date += "/" + String.valueOf(foodList[position].getFoodDay());
+        date += "/" + String.valueOf(foodList[position].getFoodYr());
+        holder.subtitle.setText(date);
     }
 
     @Override

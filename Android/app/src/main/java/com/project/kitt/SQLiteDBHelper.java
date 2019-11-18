@@ -15,12 +15,14 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
     public static final String TABLE_NAME = "food";
     public static final String KEY_FOOD_ID = "food_id";
     public static final String KEY_FOOD_NAME = "food_name";
-    public static final String KEY_FOOD_DATE = "food_date";
+    public static final String KEY_FOOD_DAY = "food_day";
+    public static final String KEY_FOOD_MON = "food_mon";
+    public static final String KEY_FOOD_YR = "food_yr";
 
     // Create Table Query
     private static String SQL_CREATE_FOOD =
-            "CREATE TABLE food (" + KEY_FOOD_ID + " INTEGER PRIMARY KEY, " + KEY_FOOD_NAME + " TEXT, " + KEY_FOOD_DATE
-            + " INTEGER );";
+            "CREATE TABLE food (" + KEY_FOOD_ID + " INTEGER PRIMARY KEY, " + KEY_FOOD_NAME + " TEXT, " + KEY_FOOD_DAY
+            + " INTEGER, " + KEY_FOOD_MON + " INTEGER, " + KEY_FOOD_YR + " INTEGER);";
 
     public static final String SQL_DELETE_FOOD =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -54,7 +56,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues food_detail = new ContentValues();
         food_detail.put(KEY_FOOD_NAME, food.getFoodName());
-        food_detail.put(KEY_FOOD_DATE,food.getFoodDate());
+        food_detail.put(KEY_FOOD_DAY,food.getFoodDay());
+        food_detail.put(KEY_FOOD_MON,food.getFoodMon());
+        food_detail.put(KEY_FOOD_YR,food.getFoodYr());
 
         long newRowId = db.insert(TABLE_NAME, null, food_detail);
         db.close();
@@ -84,7 +88,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         FoodDetail[] foodDetailsArray = new FoodDetail[length];
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME
-                + " ORDER BY " + KEY_FOOD_DATE + " DESC";
+                + " ORDER BY " + KEY_FOOD_YR + " DESC, " + KEY_FOOD_MON + " DESC, "
+                + KEY_FOOD_DAY + " DESC;";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
 
@@ -97,7 +102,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
                     FoodDetail foodDetail = new FoodDetail();
                     foodDetail.setFoodID(cursor.getInt(0));
                     foodDetail.setFoodName(cursor.getString(1));
-                    foodDetail.setFoodDate(cursor.getInt(2));
+                    foodDetail.setFoodDay(cursor.getInt(2));
+                    foodDetail.setFoodMon(cursor.getInt(3));
+                    foodDetail.setFoodYr(cursor.getInt(4));
 
                     foodDetailsArray[i] = foodDetail;
                     i--;
