@@ -11,7 +11,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" android:theme="@style/AppTheme"></activity>
         <activity android:name=".AddInfo" android:theme="@style/AppTheme"></activity>
-        <activity android:name=".SettingsNotifications" android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/AppThemeNoActionBar">

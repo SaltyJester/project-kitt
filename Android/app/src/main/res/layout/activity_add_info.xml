@@ -8,57 +8,50 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:paddingTop="60dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="70dp"
-            android:gravity="center"
-            android:text="ADD ITEM:"
-            android:textColor="?attr/colorOnBackground"
-            android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/itemName"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Item Name:" />
+            android:hint="Item Name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_create_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/itemName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp">
 
-            <TextView
-                android:id="@+id/expDateInput"
-                android:layout_width="133dp"
-                android:layout_height="48dp"
-                android:ems="10"
-                android:gravity="center_vertical"
-                android:text="Expiration Date:"
-                android:textColor="?attr/colorOnBackground"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/clickDate"
-                android:focusable="false"
-                android:onClick="launchDatePicker"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/itemDate"
                 android:layout_width="match_parent"
+                android:layout_margin="10dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="40dp"
-                android:ems="10"
-                android:inputType="number"
-                android:hint="Pick expiration date" />
+                android:focusable="false"
+                android:hint="Expiration Date"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_add_alert">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/itemDateEditText"
+                    android:focusable="false"
+                    android:onClick="launchDatePicker"
+                    android:editable="false"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/enterItem"

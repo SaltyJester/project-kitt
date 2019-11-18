@@ -15,6 +15,8 @@ import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,13 +44,13 @@ public class AddInfo extends AppCompatActivity {
                 day = expiration.get(Calendar.DAY_OF_MONTH);
                 month = expiration.get(Calendar.MONTH) + 1;
                 year = expiration.get(Calendar.YEAR);
-                EditText et = findViewById(R.id.clickDate);
-                et.setHint((month)+"/"+(day)+"/"+(year));
+                TextInputEditText til = findViewById(R.id.itemDateEditText);
+                til.setText((month)+"/"+(day)+"/"+(year));
             }
         };
         Calendar min = Calendar.getInstance();
         if(day != 0){
-            min.set(year, month, day);
+            min.set(year, month-1, day);
         }
         DatePickerBuilder builder = new DatePickerBuilder(this, listener)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
@@ -60,10 +62,8 @@ public class AddInfo extends AppCompatActivity {
     }
 
     public void addItemToDB(View v){
-        EditText itemDate;
-        EditText itemName;
+        TextInputEditText itemName;
         itemName = findViewById(R.id.itemName);
-        itemDate = findViewById(R.id.clickDate);
         boolean error = false;
 
         if(itemName.getText().toString().matches("") || day == 0 || month == 0 || year == 0 ){
