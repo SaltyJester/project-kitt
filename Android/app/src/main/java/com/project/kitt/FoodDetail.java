@@ -4,7 +4,9 @@ public class FoodDetail
 {
     private int foodID;
     private String foodName;
-    private int foodDate;
+    private int foodDay;
+    private int foodMon;
+    private int foodYr;
 
     public int getFoodID()
     {
@@ -26,13 +28,33 @@ public class FoodDetail
         this.foodName = foodName;
     }
 
-    public int getFoodDate()
+    public int getFoodDay()
     {
-        return foodDate;
+        return foodDay;
     }
 
-    public void setFoodDate(int foodDate)
+    public int getFoodMon()
     {
-        this.foodDate = foodDate;
+        return foodMon;
+    }
+
+    public int getFoodYr()
+    {
+        return foodYr;
+    }
+
+    public void setFoodDay(int foodDay)
+    {
+        this.foodDay = foodDay;
+    }
+
+    public void setFoodMon(int foodMon)
+    {
+        this.foodMon = foodMon;
+    }
+
+    public void setFoodYr(int foodYr)
+    {
+        this.foodYr = foodYr;
     }
 }

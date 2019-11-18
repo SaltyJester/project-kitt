@@ -50,13 +50,15 @@
 
             <EditText
                 android:id="@+id/clickDate"
+                android:focusable="false"
+                android:onClick="launchDatePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="40dp"
                 android:ems="10"
                 android:inputType="number"
-                android:hint="Enter expiration in YYYYMMDD format" />
+                android:hint="Pick expiration date" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/enterItem"
