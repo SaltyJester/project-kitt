@@ -27,6 +27,10 @@ public class WelcomeActivity extends AppCompatActivity {
     // TEST CODE FOR FIREBASE UI
     public void firebaseUI(View view)
     {
+        // TEST, am i writing data to firestore
+        FirestoreHelper firestoreHelper = new FirestoreHelper();
+        firestoreHelper.addAdaLovelace();
+
         Intent intent = new Intent(this, FirebaseUIActivity.class);
         startActivity(intent);
     }
