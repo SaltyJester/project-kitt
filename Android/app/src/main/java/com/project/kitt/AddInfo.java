@@ -3,6 +3,9 @@ package com.project.kitt;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +31,12 @@ public class AddInfo extends AppCompatActivity {
     int day = 0;
     int month = 0;
     int year = 0;
+
+    //for notification
+    private static final int uniqueID = 0;
+    //make the uniqueID the name of the food
+    private final String CHANNEL_ID = "channelTest";
+    PendingIntent pi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,5 +104,16 @@ public class AddInfo extends AppCompatActivity {
             Intent myIntent = new Intent(AddInfo.this, MainActivity.class);
             startActivity(myIntent);
         }
+
+
+        Calendar calendar = Calendar.getInstance();
+        //reset calendar month, day, year to what is added to db
+        calendar.add(Calendar.SECOND, 10);
+
+        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, myReceiver.class);
+        //intent.putExtra("myAction", "notify");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 }
