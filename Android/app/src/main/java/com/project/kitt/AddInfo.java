@@ -106,14 +106,29 @@ public class AddInfo extends AppCompatActivity {
         }
 
 
+        //write function that scans db and updates as necessary
+        //call that when onclick function is executed and when swipe to delete
+
         Calendar calendar = Calendar.getInstance();
         //reset calendar month, day, year to what is added to db
-        calendar.add(Calendar.SECOND, 10);
+        //NEED TO CHECK HOW MONTH NUMBERS ARE STORED AND FIX ACCORDINGLY
+        int newDay=day-2;
+        calendar.set(year,month,day);
+        //System.out.println(day);
+        //for day before
+        calendar.add(Calendar.MONTH, -1);
+        //calendar.add(Calendar.DAY_OF_MONTH, -2);
+        //calendar.add(Calendar.SECOND, 10);
+        //calendar.set(Calendar.HOUR, 22);
+        //calendar.set(Calendar.MINUTE, 11);
+        //calendar.set(Calendar.SECOND, 25);
+        calendar.set(Calendar.DAY_OF_MONTH, newDay);
+        System.out.println(calendar.getTime());
 
         AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, myReceiver.class);
         //intent.putExtra("myAction", "notify");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 }
