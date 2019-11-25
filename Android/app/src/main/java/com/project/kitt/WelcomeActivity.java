@@ -24,14 +24,11 @@ public class WelcomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // TEST CODE FOR FIREBASE UI
+    // TEST CODE FOR FIREBASE UI START
     public void firebaseUI(View view)
     {
-        // TEST, am i writing data to firestore
-        FirestoreHelper firestoreHelper = new FirestoreHelper();
-        firestoreHelper.addAdaLovelace();
-
         Intent intent = new Intent(this, FirebaseUIActivity.class);
         startActivity(intent);
     }
+    // TEST CODE FOR FIREBASE UI END
 }

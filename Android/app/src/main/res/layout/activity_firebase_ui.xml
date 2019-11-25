@@ -21,4 +21,18 @@
         android:onClick="signOut"
         android:text="Logout" />
 
+    <Button
+        android:id="@+id/btnSendData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="writeData"
+        android:text="Send Data" />
+
+    <Button
+        android:id="@+id/btnRead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="readData"
+        android:text="Button" />
+
 </android.widget.LinearLayout>

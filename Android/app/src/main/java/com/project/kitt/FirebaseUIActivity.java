@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -17,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class FirebaseUIActivity extends AppCompatActivity {
@@ -74,6 +72,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
     }
     // [END auth_fui_result]
 
+    // TEST CODE START
     public void signOut(View view) {
         // [START auth_fui_signout]
         AuthUI.getInstance()
@@ -85,4 +84,19 @@ public class FirebaseUIActivity extends AppCompatActivity {
                 });
         // [END auth_fui_signout]
     }
+
+    // FOR TESTING PURPOSES
+    public void writeData(View view)
+    {
+        FirestoreDB firestoreHelper = new FirestoreDB();
+        firestoreHelper.addAdaLovelace();
+    }
+
+    public void readData(View view)
+    {
+        FirestoreDB firestoreHelper = new FirestoreDB();
+        firestoreHelper.getAllUsers();
+
+    }
+    // TEST CODE START
 }
