@@ -86,13 +86,13 @@ public class FirebaseUIActivity extends AppCompatActivity {
     }
 
     // FOR TESTING PURPOSES
-    public void writeData(View view)
+    public void writeData()
     {
         FirestoreDB firestoreHelper = new FirestoreDB();
         firestoreHelper.addAdaLovelace();
     }
 
-    public void readData(View view)
+    public void readData()
     {
         FirestoreDB firestoreHelper = new FirestoreDB();
         firestoreHelper.getAllUsers();
