@@ -50,8 +50,9 @@ public class TestFirebase extends AppCompatActivity {
             }
     }
 
-    public void signOut(View view)
+    public void getData(View view)
     {
-
+        FirestoreDB db = new FirestoreDB();
+        db.getAllUsers();
     }
 }

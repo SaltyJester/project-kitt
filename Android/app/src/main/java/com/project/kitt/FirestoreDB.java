@@ -3,6 +3,7 @@ package com.project.kitt;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -19,7 +20,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FirestoreDB
@@ -51,31 +55,27 @@ public class FirestoreDB
         }
     }
 
-    public FoodDetail[] getAllUsers()
+    public void getAllUsers()
     {
-        FoodDetail[] foodList = new FoodDetail[0];
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
-//            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//            FirebaseFirestore.getInstance()
-//                    .collection("user")
-//                    .document()
+            ArrayList<FoodDetail> arrayList;
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-//            db.collection("users")
-//                    .get()
-//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                for (QueryDocumentSnapshot document : task.getResult()) {
-//                                    Log.d(TAG, document.getId() + " => " + document.getData());
-//                                }
-//                            } else {
-//                                Log.w(TAG, "Error getting documents.", task.getException());
-//                            }
-//                        }
-//                    });
+            db.collection("users").document(user.getUid()).collection(user.getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
         }
-        return foodList;
     }
 }
