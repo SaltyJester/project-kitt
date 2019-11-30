@@ -89,7 +89,6 @@ public class FirebaseUIActivity extends AppCompatActivity {
     public void writeData()
     {
         FirestoreDB firestoreHelper = new FirestoreDB();
-        firestoreHelper.addAdaLovelace();
     }
 
     public void readData()
