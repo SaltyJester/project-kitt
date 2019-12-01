@@ -12,6 +12,8 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+//for alarm manager: https://stackoverflow.com/questions/34494910/setting-notification-alarm-in-an-android-application
+//for notification builder & channel: https://www.youtube.com/watch?v=ub4_f6ksxL0
 public class myReceiver extends BroadcastReceiver {
     private static final int uniqueID = 0;
     private final String CHANNEL_ID = "channelTest";
@@ -23,8 +25,6 @@ public class myReceiver extends BroadcastReceiver {
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(goBack);
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(100, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
 
         createNotificationChannel(context);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
