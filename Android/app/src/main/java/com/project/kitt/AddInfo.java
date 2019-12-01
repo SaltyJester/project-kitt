@@ -27,6 +27,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+//for notifications: https://stackoverflow.com/questions/22928684/android-how-to-set-alarm-x-days-before-specific-date
+//for getting preferences: https://stackoverflow.com/questions/19799874/get-all-selected-entries-from-multiselectlistpreferencesharedpreferences
+//for alarm manager: https://stackoverflow.com/questions/34494910/setting-notification-alarm-in-an-android-application
+
 public class AddInfo extends AppCompatActivity {
 
     int day = 0;
@@ -154,7 +158,6 @@ public class AddInfo extends AppCompatActivity {
         System.out.println("After change: " + reminderTime);
         AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, myReceiver.class);
-        //intent.putExtra("myAction", "notify");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i++, intent, 0);
         am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
     }
