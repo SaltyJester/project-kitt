@@ -18,11 +18,11 @@ public class myReceiver extends BroadcastReceiver {
     PendingIntent pi;
     @Override
     public void onReceive(Context context, Intent intent) {
-        /*Intent goBack = new Intent(context, HomeFragment.class);
+        Intent goBack = new Intent(context, MainActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(HomeFragment.class);
+        stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(goBack);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(100, PendingIntent.FLAG_UPDATE_CURRENT);*/
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(100, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
 
@@ -32,7 +32,7 @@ public class myReceiver extends BroadcastReceiver {
         builder.setContentTitle("FOOD EXPIRING SOON");
         builder.setContentText("You have food expiring soon! Please check app for details.");
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        builder.setContentIntent(pi)
+        builder.setContentIntent(pendingIntent)
                 .setAutoCancel(true);
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(uniqueID, builder.build());

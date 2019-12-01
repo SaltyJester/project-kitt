@@ -2,35 +2,38 @@ package com.project.kitt;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class AddInfo extends AppCompatActivity {
 
     int day = 0;
     int month = 0;
     int year = 0;
+    Context ctx = this;
+    int i=0;
 
     //for notification
     private static final int uniqueID = 0;
@@ -105,30 +108,54 @@ public class AddInfo extends AppCompatActivity {
             startActivity(myIntent);
         }
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> selections = sharedPrefs.getStringSet("notification frequency", null);
+        String[] selected = selections.toArray(new String[] {});
+        if (selected.length != 0){
+            for (String s : selected) {
+                setAlarm(s);
+            }
+        }
 
-        //write function that scans db and updates as necessary
-        //call that when onclick function is executed and when swipe to delete
-
+    }
+    public void setAlarm(String s){
         Calendar calendar = Calendar.getInstance();
-        //reset calendar month, day, year to what is added to db
-        //NEED TO CHECK HOW MONTH NUMBERS ARE STORED AND FIX ACCORDINGLY
-        int newDay=day-2;
         calendar.set(year,month,day);
-        //System.out.println(day);
-        //for day before
         calendar.add(Calendar.MONTH, -1);
-        //calendar.add(Calendar.DAY_OF_MONTH, -2);
-        //calendar.add(Calendar.SECOND, 10);
-        //calendar.set(Calendar.HOUR, 22);
-        //calendar.set(Calendar.MINUTE, 11);
-        //calendar.set(Calendar.SECOND, 25);
-        calendar.set(Calendar.DAY_OF_MONTH, newDay);
-        System.out.println(calendar.getTime());
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        //1 for pm, 0 for am
+        calendar.set(Calendar.AM_PM, 0);
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, 00);
 
+        long inputtedDate = calendar.getTimeInMillis();
+        long dayToMilli = AlarmManager.INTERVAL_DAY; //converts 24 hours to 1 day
+        int amtDays;
+        long reminderTime = 0L;
+        switch (s) {
+            case "0":
+                reminderTime = inputtedDate;
+                break;
+            case "1":
+                amtDays = 1;
+                reminderTime = inputtedDate - (amtDays * dayToMilli);
+                //System.out.println(reminderTime);
+                break;
+            case "2":
+                amtDays = 3;
+                reminderTime = inputtedDate - (amtDays * dayToMilli);
+                break;
+            case "3":
+                amtDays = 7;
+                reminderTime = inputtedDate - (amtDays * dayToMilli);
+                break;
+        }
+
+        System.out.println("After change: " + reminderTime);
         AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, myReceiver.class);
         //intent.putExtra("myAction", "notify");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i++, intent, 0);
+        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
     }
 }
