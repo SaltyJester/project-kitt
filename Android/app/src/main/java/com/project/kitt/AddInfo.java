@@ -155,7 +155,7 @@ public class AddInfo extends AppCompatActivity {
                 break;
         }
 
-        System.out.println("After change: " + reminderTime);
+        //System.out.println("After change: " + reminderTime);
         AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, myReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i++, intent, 0);
