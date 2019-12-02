@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="256dp"
-        android:layout_height="261dp"
-        android:clickable="true"
-        app:backgroundTint="#7AA8F8"
-        app:srcCompat="@drawable/ic_add" />
+    <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:headerColor="@color/colorPrimaryDark"
+        app:todayLabelColor="@color/colorAccent"
+        />
+
 </RelativeLayout>
