@@ -7,6 +7,7 @@ public class FoodDetail
     private int foodDay;
     private int foodMon;
     private int foodYr;
+    private String foodNotifications;
 
     public int getFoodID()
     {
@@ -57,4 +58,8 @@ public class FoodDetail
     {
         this.foodYr = foodYr;
     }
+
+    public void setFoodNotification(String ids) { this.foodNotifications = ids; }
+
+    public String getFoodNotification() { return foodNotifications; }
 }

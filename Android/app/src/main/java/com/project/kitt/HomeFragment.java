@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recCards = (RecyclerView)root.findViewById(R.id.recyclerCardView);
+
         recCards.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -34,6 +36,10 @@ public class HomeFragment extends Fragment {
 
         CardViewAdapter myCardView = new CardViewAdapter(items);
         recCards.setAdapter(myCardView);
+        myCardView.setView(root);
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDeleteCallback(myCardView, getContext()));
+        itemTouchHelper.attachToRecyclerView(recCards);
         return root;
     }
 }
