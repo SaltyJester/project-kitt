@@ -54,7 +54,6 @@ public class AddInfo extends AppCompatActivity {
         }
         DatePickerBuilder builder = new DatePickerBuilder(this, listener)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
-                .setMinimumDate(Calendar.getInstance())
                 .setDate(min);
 
         DatePicker datePicker = builder.build();

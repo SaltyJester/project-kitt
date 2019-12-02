@@ -1,6 +1,7 @@
 package com.project.kitt;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.cardview.widget.CardView;
@@ -44,6 +46,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.FoodVi
         date += "/" + String.valueOf(foodList.get(position).getFoodDay());
         date += "/" + String.valueOf(foodList.get(position).getFoodYr());
         holder.subtitle.setText(date);
+        Calendar c = Calendar.getInstance();
+        c.set(foodList.get(position).getFoodYr(), foodList.get(position).getFoodMon() - 1, foodList.get(position).getFoodDay());
+        if(c.before(Calendar.getInstance())){
+            holder.cv.setCardBackgroundColor(Color.GRAY);
+        }
     }
 
     @Override
