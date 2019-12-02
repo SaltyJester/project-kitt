@@ -11,10 +11,10 @@
         app:key="Enable expiry notifications"
         app:title="Enable expiry notifications"/>
 
-    <ListPreference
+    <MultiSelectListPreference
         app:key="notification frequency"
         app:title="Notification frequency"
-        app:defaultValue="0"
+        app:defaultValue="@array/empty_array"
         app:dialogTitle="Notification frequency"
         app:entries="@array/notification_entries"
         app:entryValues="@array/notification_values"
