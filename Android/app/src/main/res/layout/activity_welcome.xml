@@ -19,9 +19,10 @@
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:paddingTop="2dp"
-                app:srcCompat="@drawable/tree" />
+                android:layout_height="300dp"
+                android:paddingTop="150dp"
+                app:srcCompat="@drawable/tree"
+                tools:srcCompat="@drawable/the_tree2" />
 
             <TextView
                 android:id="@+id/welcome_name"
@@ -29,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/aubrey"
                 android:gravity="center_horizontal"
-                android:paddingTop="10dp"
+                android:paddingTop="0dp"
                 android:text="KITT"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="52sp" />

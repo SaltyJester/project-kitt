@@ -15,7 +15,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         ImageView logo = findViewById(R.id.imageView2);
-        int imageResource = getResources().getIdentifier("@drawable/tree", null, this.getPackageName());
+        int imageResource = getResources().getIdentifier("@drawable/the_tree2", null, this.getPackageName());
         logo.setImageResource(imageResource);
     }
 
