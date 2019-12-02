@@ -46,8 +46,22 @@ public class CalendarFragment extends Fragment{
         while (i < arrayLength){
             Calendar calendar = Calendar.getInstance();
             String dateStr;
-            String dateDay = Integer.toString(foodArray[i].getFoodDay());
-            String dateMonth = Integer.toString(foodArray[i].getFoodMon());
+            String dateDay;
+            if (foodArray[i].getFoodDay() < 10){
+                dateDay = Integer.toString(foodArray[i].getFoodDay());
+                dateDay = "0" + dateDay;
+            }
+            else{
+                dateDay = Integer.toString(foodArray[i].getFoodDay());
+            }
+            String dateMonth;
+            if (foodArray[i].getFoodMon() < 10){
+                dateMonth = Integer.toString(foodArray[i].getFoodMon());
+                dateMonth = "0" + dateMonth;
+            }
+            else{
+                dateMonth = Integer.toString(foodArray[i].getFoodMon());
+            }
             String dateYear =  Integer.toString(foodArray[i].getFoodYr());
             dateStr = dateYear + dateMonth + dateDay;
 
