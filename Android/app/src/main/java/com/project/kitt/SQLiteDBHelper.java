@@ -81,6 +81,11 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
 //        if(null != cursor)
 //    }
 
+    public void removeFood(int index){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, KEY_FOOD_ID + "=?", new String[]{Integer.toString(index)});
+    }
+
     public FoodDetail[] getAllFood()
     {
         int length = getCount();
