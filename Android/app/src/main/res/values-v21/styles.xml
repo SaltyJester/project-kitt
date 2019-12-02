@@ -12,6 +12,9 @@
         <item name="actionBarTheme">@style/Theme.MaterialComponents.DayNight.Bridge</item>
     </style>
     <style name = "AppThemeNoActionBar" parent = "Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name = "android:windowActionBar">false</item>
         <item name = "android:statusBarColor">?attr/colorPrimarySurface</item>
         <item name = "android:navigationBarColor">?attr/colorPrimarySurface</item>
