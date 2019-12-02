@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -55,14 +56,14 @@ public class FirestoreDB
         }
     }
 
-    public void getAllUsers()
+    public ArrayList<FoodDetail> getAllFood()
     {
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
-            ArrayList<FoodDetail> arrayList;
+            final ArrayList<FoodDetail> foodList = new ArrayList<FoodDetail>();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-            db.collection("users").document(user.getUid()).collection(user.getUid())
+            db.collection("users").document(user.getUid()).collection("foods")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -70,12 +71,17 @@ public class FirestoreDB
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
+//                                    System.out.println(document.getData());
+                                    FoodDetail food = document.toObject(FoodDetail.class);
+                                    foodList.add(food);
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
                         }
                     });
+            return foodList;
         }
+        return null;
     }
 }

@@ -94,7 +94,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
     public void readData()
     {
         FirestoreDB firestoreHelper = new FirestoreDB();
-        firestoreHelper.getAllUsers();
+        firestoreHelper.getAllFood();
 
     }
     // TEST CODE START
