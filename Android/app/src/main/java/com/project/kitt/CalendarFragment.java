@@ -91,7 +91,7 @@ public class CalendarFragment extends Fragment{
             int difference = (int)daysDiff;
             calendar.add(Calendar.DAY_OF_MONTH, difference);
             if (difference < 0){
-                events.add(new EventDay(calendar,R.drawable.ic_alert));
+                events.add(new EventDay(calendar,R.drawable.ic_alertpast));
             }
             else{
                 events.add(new EventDay(calendar,R.drawable.ic_alert));
