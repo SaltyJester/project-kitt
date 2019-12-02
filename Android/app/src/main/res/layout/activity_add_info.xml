@@ -60,7 +60,8 @@
                 android:layout_gravity="bottom|right"
                 android:layout_margin="16dp"
                 android:onClick="addItemToDB"
-                app:srcCompat="@drawable/ic_done"/>
+                app:backgroundTint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_done" />
 
         </FrameLayout>
 

@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
+        app:backgroundTint="@color/colorAccent"
         android:onClick="callAddInfo"
         app:srcCompat="@drawable/ic_add"/>
 
