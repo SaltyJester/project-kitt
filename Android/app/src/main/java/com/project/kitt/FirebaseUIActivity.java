@@ -88,12 +88,12 @@ public class FirebaseUIActivity extends AppCompatActivity {
     // FOR TESTING PURPOSES
     public void writeData()
     {
-        FirestoreDB firestoreHelper = new FirestoreDB();
+        FirestoreDB firestoreHelper = new FirestoreDB(this);
     }
 
     public void readData()
     {
-        FirestoreDB firestoreHelper = new FirestoreDB();
+        FirestoreDB firestoreHelper = new FirestoreDB(this);
         firestoreHelper.getAllFood();
 
     }

@@ -25,7 +25,7 @@ public class TestFirebase extends AppCompatActivity {
 
     public void sendData(View view)
     {
-        FirestoreDB db = new FirestoreDB();
+        FirestoreDB db = new FirestoreDB(this);
         FoodDetail foodTest = new FoodDetail();
         foodTest.setFoodName("Apple");
         foodTest.setFoodDate(1);
@@ -48,7 +48,7 @@ public class TestFirebase extends AppCompatActivity {
 
     public void getData(View view)
     {
-        FirestoreDB db = new FirestoreDB();
+        FirestoreDB db = new FirestoreDB(this);
         db.getAllFood();
     }
 }

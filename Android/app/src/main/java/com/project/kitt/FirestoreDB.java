@@ -29,6 +29,13 @@ import java.util.Map;
 
 public class FirestoreDB
 {
+    private Context mContext;
+
+    public FirestoreDB(Context context)
+    {
+        mContext = context;
+    }
+
     private static final String TAG = "FirestoreDB";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -56,7 +63,7 @@ public class FirestoreDB
         }
     }
 
-    public ArrayList<FoodDetail> getAllFood()
+    public void getAllFood()
     {
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
@@ -73,15 +80,14 @@ public class FirestoreDB
                                     Log.d(TAG, document.getId() + " => " + document.getData());
 //                                    System.out.println(document.getData());
                                     FoodDetail food = document.toObject(FoodDetail.class);
-                                    foodList.add(food);
+                                    SQLiteDBHelper dbHelper = new SQLiteDBHelper(mContext);
+                                    dbHelper.addFood(food);
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
                             }
                         }
                     });
-            return foodList;
         }
-        return null;
     }
 }
