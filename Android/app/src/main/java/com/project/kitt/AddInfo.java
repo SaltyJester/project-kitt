@@ -20,10 +20,7 @@ import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.google.android.material.textfield.TextInputEditText;
 
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -36,14 +33,8 @@ public class AddInfo extends AppCompatActivity {
     int day = 0;
     int month = 0;
     int year = 0;
-    Context ctx = this;
     int i=0;
 
-    //for notification
-    private static final int uniqueID = 0;
-    //make the uniqueID the name of the food
-    private final String CHANNEL_ID = "channelTest";
-    PendingIntent pi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,17 +105,20 @@ public class AddInfo extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> selections = sharedPrefs.getStringSet("notification frequency", null);
-        String[] selected = selections.toArray(new String[] {});
-        if (selected.length != 0){
-            for (String s : selected) {
-                setAlarm(s);
+        if((selections != null) && !selections.isEmpty()){
+            System.out.println("is not null");
+            String[] selected = selections.toArray(new String[] {});
+            if (selected.length != 0){
+                for (String s : selected) {
+                    setAlarm(s);
+                }
             }
         }
 
     }
-    public void setAlarm(String s){
+    public void setAlarm(String s) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year,month,day);
+        calendar.set(year, month, day);
         calendar.add(Calendar.MONTH, -1);
         calendar.set(Calendar.HOUR_OF_DAY, 11);
         //1 for pm, 0 for am
@@ -132,6 +126,7 @@ public class AddInfo extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 00);
 
+        String alarmDigit = "";
         long inputtedDate = calendar.getTimeInMillis();
         long dayToMilli = AlarmManager.INTERVAL_DAY; //converts 24 hours to 1 day
         int amtDays;
@@ -139,26 +134,36 @@ public class AddInfo extends AppCompatActivity {
         switch (s) {
             case "0":
                 reminderTime = inputtedDate;
+                alarmDigit = "1";
                 break;
             case "1":
                 amtDays = 1;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
-                //System.out.println(reminderTime);
+                alarmDigit = "2";
                 break;
             case "2":
                 amtDays = 3;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
+                alarmDigit = "3";
                 break;
             case "3":
                 amtDays = 7;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
+                alarmDigit = "4";
                 break;
         }
 
-        //System.out.println("After change: " + reminderTime);
-        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        //String alarmValue = String.valueOf(foodID) + alarmDigit;
+        //int alarmID = Integer.parseInt(alarmValue);
+        System.out.println(reminderTime + "THIS IS REMINDER TIME");
+        int alarmId = (int) System.currentTimeMillis();
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, myReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i++, intent, 0);
-        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+        //PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i++, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, alarmId, intent, 0);
+        if (am != null) {
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+            System.out.println(alarmDigit + "alarm was set with time: " + alarmId);
+        }
     }
 }
