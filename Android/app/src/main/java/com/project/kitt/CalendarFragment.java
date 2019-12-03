@@ -44,22 +44,36 @@ public class CalendarFragment extends Fragment{
 
 
         while (i < arrayLength){
+            boolean afterMarch = false;
+            boolean afterNinth = false;
+
             Calendar calendar = Calendar.getInstance();
             String dateStr;
             String dateDay;
             if (foodArray[i].getFoodDay() < 10){
+
                 dateDay = Integer.toString(foodArray[i].getFoodDay());
                 dateDay = "0" + dateDay;
+                if (foodArray[i].getFoodDay() == 9){
+                    afterNinth = true;
+                }
+
             }
             else{
+                    afterNinth = true;
+
                 dateDay = Integer.toString(foodArray[i].getFoodDay());
             }
             String dateMonth;
             if (foodArray[i].getFoodMon() < 10){
                 dateMonth = Integer.toString(foodArray[i].getFoodMon());
                 dateMonth = "0" + dateMonth;
+                if (foodArray[i].getFoodMon() > 2){
+                    afterMarch = true;
+                }
             }
             else{
+                afterMarch = true;
                 dateMonth = Integer.toString(foodArray[i].getFoodMon());
             }
             String dateYear =  Integer.toString(foodArray[i].getFoodYr());
@@ -89,6 +103,9 @@ public class CalendarFragment extends Fragment{
             long diff = date1.getTime() - date2.getTime();
             long daysDiff = TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
             int difference = (int)daysDiff;
+            if (afterMarch && afterNinth){
+                difference = difference +1;
+            }
             calendar.add(Calendar.DAY_OF_MONTH, difference);
             if (difference < 0){
                 events.add(new EventDay(calendar,R.drawable.ic_alertpast));
