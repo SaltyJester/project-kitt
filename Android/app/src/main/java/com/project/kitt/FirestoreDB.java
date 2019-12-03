@@ -97,20 +97,23 @@ public class FirestoreDB
         {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-//            db.collection("cities").document("DC")
-//                    .update()
-//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void aVoid) {
-//                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Log.w(TAG, "Error deleting document", e);
-//                        }
-//                    });
+            db.collection("users")
+                    .document(user.getUid())
+                    .collection("foods")
+                    .document(Integer.toString(id))
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
         }
     }
 }

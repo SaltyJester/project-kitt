@@ -51,4 +51,10 @@ public class TestFirebase extends AppCompatActivity {
         FirestoreDB db = new FirestoreDB(this);
         db.getAllFood();
     }
+
+    public void deleteData(View view)
+    {
+        FirestoreDB db = new FirestoreDB(this);
+        db.deleteFood(73);
+    }
 }
