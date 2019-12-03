@@ -27,10 +27,10 @@ public class TestFirebase extends AppCompatActivity {
     {
         FirestoreDB db = new FirestoreDB(this);
         FoodDetail foodTest = new FoodDetail();
-        foodTest.setFoodName("Apple");
-        foodTest.setFoodDate(1);
-        foodTest.setFoodDate(123);
-        db.addFood(foodTest);
+        foodTest.setFoodName("Orange");
+//        foodTest.setFoodDate(1);
+//        foodTest.setFoodDate(123);
+        db.addFood(foodTest, 73);
     }
     public void getUserData(View view)
     {

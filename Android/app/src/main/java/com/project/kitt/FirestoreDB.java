@@ -40,18 +40,18 @@ public class FirestoreDB
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public void addFood(FoodDetail food) // test writing to database
+    public void addFood(FoodDetail food, int id) // test writing to database
     {
         // Check to see if user is logged in, otherwise prompt user to login (NOT FINISHED)
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            db.collection("users").document(user.getUid()).collection("foods")
-                    .add(food)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            db.collection("users").document(user.getUid()).collection("foods").document(Integer.toString(id))
+                    .set(food)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -88,6 +88,29 @@ public class FirestoreDB
                             }
                         }
                     });
+        }
+    }
+
+    public void deleteFood(int id)
+    {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+        {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+//            db.collection("cities").document("DC")
+//                    .update()
+//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                        @Override
+//                        public void onSuccess(Void aVoid) {
+//                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.w(TAG, "Error deleting document", e);
+//                        }
+//                    });
         }
     }
 }
