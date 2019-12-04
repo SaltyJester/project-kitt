@@ -4,12 +4,13 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.project.kitt"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true // dont know what this does but Firestore needs it
     }
     buildTypes {
         release {
@@ -27,6 +28,7 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.applandeo:material-calendar-view:1.7.0'
@@ -43,4 +45,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.navigation:navigation-fragment:2.1.0'
-    implementation 'androidx.navigation:navigation-ui:2.1.0' }
+    implementation 'androidx.navigation:navigation-ui:2.1.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.0' // FireBase SDK
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1' // FirebaseUI
+    implementation 'com.google.firebase:firebase-firestore:21.3.0' // Firebase FirestoreDB
+    implementation 'com.android.support:multidex:1.0.3'
+    // Dont know what this is but its needed for Firestore
+}
+
+apply plugin: 'com.google.gms.google-services'

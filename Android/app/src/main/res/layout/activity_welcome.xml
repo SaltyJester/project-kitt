@@ -59,6 +59,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_gravity="center|bottom"
                         android:layout_centerHorizontal="true" />
+
                 </RelativeLayout>
 
                 <TextView

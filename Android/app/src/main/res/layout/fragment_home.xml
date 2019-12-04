@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:id="@+id/coordinator_home"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="Nothing to see here"
         android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="80dp"
         android:textAppearance="?attr/textAppearanceHeadline4"/>
 
     <TextView
@@ -41,4 +42,4 @@
         android:onClick="callAddInfo"
         app:srcCompat="@drawable/ic_add"/>
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
