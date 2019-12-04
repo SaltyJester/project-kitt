@@ -16,4 +16,13 @@
         <item name = "android:windowNoTitle">true</item>
     </style>
 
+    <style name="LightTheme" parent="AppTheme">
+
+        <item name="bgColor">#ffffff</item>
+    </style>
+
+    <style name="DarkTheme" parent="AppTheme">
+
+        <item name="bgColor">#494949</item>
+    </style>
 </resources>
