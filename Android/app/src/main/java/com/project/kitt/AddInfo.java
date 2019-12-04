@@ -125,19 +125,19 @@ public class AddInfo extends AppCompatActivity {
             if (selected.length != 0){
                 for (String s : selected) {
                     setAlarm(s);
+                    //for testing
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.MINUTE, 3);
+                    String testingString = "Heyyyyy";
+                    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    Intent intent = new Intent(this, myReceiver.class);
+                    intent.putExtra("foodName", testingString);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 30, intent, 0);
+                    am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
                 }
             }
         }
 
-        //for testing
-        /*Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, 3);
-        String testingString = "Heyyyyy";
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, myReceiver.class);
-        intent.putExtra("foodName", testingString);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 30, intent, 0);
-        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);*/
 
     }
     public void setAlarm(String s) {

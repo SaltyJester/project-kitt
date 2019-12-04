@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 public class SQLiteDBHelper extends SQLiteOpenHelper
 {
@@ -102,23 +103,42 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         for(int i=0; i<4; i++){
             String appendIndex = String.valueOf(index) + String.valueOf(i);
             int id = Integer.parseInt(appendIndex);
-            System.out.println(appendIndex);
+            System.out.println(id + "THIS IS ID TO DELETE");
 
-            AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+            /*AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(ctx, myReceiver.class);
-            PendingIntent pi = PendingIntent.getBroadcast(ctx, id, intent, 0);
-            if(am != null){
+            PendingIntent pi = PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, 0);
+
+             */
+            Intent intent = new Intent(ctx.getApplicationContext(), myReceiver.class);
+            boolean alarmUp = (PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, PendingIntent.FLAG_NO_CREATE) != null);
+            Log.d("TAG: TEST APP:  ", "alarm is " + (alarmUp ? "" : "not") + " working...");
+            if(alarmUp){
+                System.out.println(id + "IS VALID ID");
+                AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+                PendingIntent pi = PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, 0);
+                am.cancel(pi);
+                pi.cancel();
+            }
+            boolean finalCheck = (PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, PendingIntent.FLAG_NO_CREATE) != null);
+            Log.d("DELETED IF:", "alarm is " + (finalCheck ? "" : "not") + " working...");
+            /*AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(ctx, myReceiver.class);
+            PendingIntent pi = PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, 0);
+            /*if(am != null){
                 am.cancel(pi);
             }
-        }
 
-        //for testing
-        /*AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(ctx, myReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(ctx, 30, intent, 0);
-        if(am != null){
-            am.cancel(pi);
-        }*/
+
+            for testing
+            AlarmManager test = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+            Intent intt = new Intent(ctx, myReceiver.class);
+            PendingIntent pen = PendingIntent.getBroadcast(ctx, 30, intt, 0);
+            if(test != null){
+                test.cancel(pen);
+            }*/
+
+        }
     }
 
     public FoodDetail[] getAllFood()
@@ -168,4 +188,20 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         db.close();
         return count;
     }
+
+
 }
+    /*//AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+    //to check whether alarm exists or not
+    Intent intent = new Intent(ctx.getApplicationContext(), myReceiver.class);
+    //PendingIntent pi = PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, 0);
+
+    boolean alarmUp = (PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, PendingIntent.FLAG_NO_CREATE) != null);
+            Log.d("TAG: TEST APP:  ", "alarm is " + (alarmUp ? "" : "not") + " working...");
+                    if(alarmUp){
+                    System.out.println(id + "IS VALID ID");
+                /*am.cancel(pi);
+                pi.cancel();
+                boolean finalCheck = (PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, PendingIntent.FLAG_NO_CREATE) != null);
+                System.out.println(finalCheck);*/
+                   // }*/
