@@ -3,6 +3,7 @@ package com.project.kitt;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -12,6 +13,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
+import android.widget.Toast;
 
 
 import com.applandeo.materialcalendarview.CalendarView;
@@ -20,10 +23,7 @@ import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.google.android.material.textfield.TextInputEditText;
 
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -36,20 +36,23 @@ public class AddInfo extends AppCompatActivity {
     int day = 0;
     int month = 0;
     int year = 0;
-    Context ctx = this;
+
+    long dbIndex;
+    int alarmID;
     int i=0;
+    int dbIndexInt;
+    String foodName;
 
-    //for notification
-    private static final int uniqueID = 0;
-    //make the uniqueID the name of the food
-    private final String CHANNEL_ID = "channelTest";
-    PendingIntent pi;
-
+    boolean addNotification = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences notifSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean notifChecked = notifSharedPref.getBoolean("Enable expiry notifications", false);
+        if (notifChecked){
+            addNotification = true;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_info);
-
     }
 
     public void launchDatePicker(View v){
@@ -101,7 +104,7 @@ public class AddInfo extends AppCompatActivity {
         }
 
         if (!error) {
-            String foodName = itemName.getText().toString();
+            foodName = itemName.getText().toString();
 
             FoodDetail foodItem = new FoodDetail();
             foodItem.setFoodName(foodName);
@@ -110,25 +113,27 @@ public class AddInfo extends AppCompatActivity {
             foodItem.setFoodYr(year);
 
             SQLiteDBHelper db = new SQLiteDBHelper(this);
-            db.addFood(foodItem);
+            dbIndex = db.addFood(foodItem);
+            dbIndexInt = (int) dbIndex;
 
             Intent myIntent = new Intent(AddInfo.this, MainActivity.class);
             startActivity(myIntent);
         }
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> selections = sharedPrefs.getStringSet("notification frequency", null);
-        String[] selected = selections.toArray(new String[] {});
-        if (selected.length != 0){
-            for (String s : selected) {
-                setAlarm(s);
+        if (addNotification){
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            Set<String> selections = sharedPrefs.getStringSet("notification frequency", null);
+            String[] selected = selections.toArray(new String[] {});
+            if (selected.length != 0){
+                for (String s : selected) {
+                    setAlarm(s);
+                }
             }
         }
 
     }
-    public void setAlarm(String s){
+    public void setAlarm(String s) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year,month,day);
+        calendar.set(year, month, day);
         calendar.add(Calendar.MONTH, -1);
         calendar.set(Calendar.HOUR_OF_DAY, 11);
         //1 for pm, 0 for am
@@ -147,7 +152,6 @@ public class AddInfo extends AppCompatActivity {
             case "1":
                 amtDays = 1;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
-                //System.out.println(reminderTime);
                 break;
             case "2":
                 amtDays = 3;
@@ -159,10 +163,16 @@ public class AddInfo extends AppCompatActivity {
                 break;
         }
 
-        //System.out.println("After change: " + reminderTime);
-        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
+        String id = Integer.toString(dbIndexInt) + Integer.toString(i++);
+        //alarmid is for example 40, 41, 42, 43 for the fifth item in db
+        alarmID = Integer.parseInt(id);
+        System.out.println("adding alarm for: "  + alarmID);
+        System.out.println(foodName + "is the food name");
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, myReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i++, intent, 0);
+        intent.putExtra("foodName", foodName);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, alarmID, intent, 0);
         am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
     }
 }
