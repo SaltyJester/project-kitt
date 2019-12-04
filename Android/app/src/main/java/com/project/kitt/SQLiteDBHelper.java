@@ -65,6 +65,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
 
         // While we're here, we might as well add the food object to the Firestore
         FirestoreDB firestoreDB = new FirestoreDB(null);
+        food.setFoodID((int) newRowId);
         firestoreDB.addFood(food, (int) newRowId);
 
         return newRowId;
