@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
 
 import com.applandeo.materialcalendarview.CalendarView;
@@ -35,13 +36,19 @@ public class AddInfo extends AppCompatActivity {
     int day = 0;
     int month = 0;
     int year = 0;
+
+    long dbIndex;
+    int alarmID;
+    int i=0;
+    int dbIndexInt;
+    String foodName;
+
     boolean addNotification = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences notifSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean notifChecked = notifSharedPref.getBoolean("Enable expiry notifications", false);
         if (notifChecked){
-            System.out.println("notifications pref turned on");
             addNotification = true;
         }
         super.onCreate(savedInstanceState);
@@ -91,9 +98,9 @@ public class AddInfo extends AppCompatActivity {
             AlertDialog alert = builder.create();
             alert.show();
         }
-        //-823465345
+
         if (!error) {
-            String foodName = itemName.getText().toString();
+            foodName = itemName.getText().toString();
 
             FoodDetail foodItem = new FoodDetail();
             foodItem.setFoodName(foodName);
@@ -102,17 +109,15 @@ public class AddInfo extends AppCompatActivity {
             foodItem.setFoodYr(year);
 
             SQLiteDBHelper db = new SQLiteDBHelper(this);
-            db.addFood(foodItem);
+            dbIndex = db.addFood(foodItem);
+            dbIndexInt = (int) dbIndex;
 
             Intent myIntent = new Intent(AddInfo.this, MainActivity.class);
             startActivity(myIntent);
         }
         if (addNotification){
-            System.out.println("ADDING NOTIFICATION");
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
             Set<String> selections = sharedPrefs.getStringSet("notification frequency", null);
-            //if((selections != null) && !selections.isEmpty()){
-            System.out.println("is not null");
             String[] selected = selections.toArray(new String[] {});
             if (selected.length != 0){
                 for (String s : selected) {
@@ -132,7 +137,6 @@ public class AddInfo extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 00);
 
-        String alarmDigit = "";
         long inputtedDate = calendar.getTimeInMillis();
         long dayToMilli = AlarmManager.INTERVAL_DAY; //converts 24 hours to 1 day
         int amtDays;
@@ -140,36 +144,31 @@ public class AddInfo extends AppCompatActivity {
         switch (s) {
             case "0":
                 reminderTime = inputtedDate;
-                alarmDigit = "1";
                 break;
             case "1":
                 amtDays = 1;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
-                alarmDigit = "2";
                 break;
             case "2":
                 amtDays = 3;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
-                alarmDigit = "3";
                 break;
             case "3":
                 amtDays = 7;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
-                alarmDigit = "4";
                 break;
         }
 
-        //String alarmValue = String.valueOf(foodID) + alarmDigit;
-        //int alarmID = Integer.parseInt(alarmValue);
-        System.out.println(reminderTime + "THIS IS REMINDER TIME");
-        int alarmId = (int) System.currentTimeMillis();
+
+        String id = Integer.toString(dbIndexInt) + Integer.toString(i++);
+        //alarmid is for example 40, 41, 42, 43 for the fifth item in db
+        alarmID = Integer.parseInt(id);
+        System.out.println("adding alarm for: "  + alarmID);
+        System.out.println(foodName + "is the food name");
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, myReceiver.class);
-        //PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i++, intent, 0);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, alarmId, intent, 0);
-        if (am != null) {
-            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
-            System.out.println(alarmDigit + "alarm was set with time: " + alarmId);
-        }
+        intent.putExtra("foodName", foodName);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, alarmID, intent, 0);
+        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
     }
 }

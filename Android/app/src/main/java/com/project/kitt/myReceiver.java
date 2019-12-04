@@ -25,11 +25,12 @@ public class myReceiver extends BroadcastReceiver {
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(goBack);
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(100, PendingIntent.FLAG_UPDATE_CURRENT);
-
+        String nameOfFood = intent.getStringExtra("foodName");
+        System.out.println("IN THE ONRECIEVE: " + nameOfFood);
         createNotificationChannel(context);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
-        builder.setContentTitle("FOOD EXPIRING SOON");
+        builder.setContentTitle("Don't forget, "+ nameOfFood + " is expiring soon!");
         builder.setContentText("You have food expiring soon! Please check app for details.");
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setContentIntent(pendingIntent)
