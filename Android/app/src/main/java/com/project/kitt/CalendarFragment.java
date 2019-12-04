@@ -51,8 +51,10 @@ public class CalendarFragment extends Fragment{
 
 
         while (i < arrayLength){
-            boolean afterMarch = false;
+            boolean march = false;
             boolean afterNinth = false;
+            boolean cancel = true;
+            boolean afterMarch = false;
 
             Calendar calendar = Calendar.getInstance();
             String dateStr;
@@ -76,14 +78,19 @@ public class CalendarFragment extends Fragment{
                 dateMonth = Integer.toString(foodArray[i].getFoodMon());
                 dateMonth = "0" + dateMonth;
                 if (foodArray[i].getFoodMon() > 2){
-                    afterMarch = true;
+                    march = true;
+                    if (foodArray[i].getFoodMon() > 3){
+                        afterMarch = true;
+                    }
                 }
             }
             else{
                 afterMarch = true;
+                march = true;
                 dateMonth = Integer.toString(foodArray[i].getFoodMon());
             }
             String dateYear =  Integer.toString(foodArray[i].getFoodYr());
+
             dateStr = dateYear + dateMonth + dateDay;
 
             Date date1 = Calendar.getInstance().getTime();
@@ -105,12 +112,23 @@ public class CalendarFragment extends Fragment{
                 e.printStackTrace();
             }
 
+            if (foodArray[i].getFoodMon() > 10){
+                if (foodArray[i].getFoodDay() > 1){
+                    cancel = false;
+                }
+            }
+            if (foodArray[i].getFoodMon() == 12){
+                cancel = false;
+            }
 
 
             long diff = date1.getTime() - date2.getTime();
             long daysDiff = TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
             int difference = (int)daysDiff;
-            if (afterMarch && afterNinth){
+            if (cancel && march && afterNinth ){
+                difference = difference +1;
+            }
+            if (cancel && afterMarch && !afterNinth){
                 difference = difference +1;
             }
             calendar.add(Calendar.DAY_OF_MONTH, difference);
