@@ -12,7 +12,9 @@
         app:headerColor="@color/colorPrimaryDark"
         app:todayLabelColor="@color/colorAccent"
         app:pagesColor="?attr/bgColor"
-
+        app:abbreviationsLabelsColor="?attr/labelColor"
+        app:abbreviationsBarColor="?attr/bgColor"
+        app:daysLabelsColor="?attr/labelColor"
         />
 
 </RelativeLayout>
