@@ -4,7 +4,11 @@ package com.project.kitt;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.style.StyleSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +27,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 public class CalendarFragment extends Fragment{
     FoodDetail[] foodArray;
     int arrayLength;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,25 +51,46 @@ public class CalendarFragment extends Fragment{
 
 
         while (i < arrayLength){
+            boolean march = false;
+            boolean afterNinth = false;
+            boolean cancel = true;
+            boolean afterMarch = false;
+
             Calendar calendar = Calendar.getInstance();
             String dateStr;
             String dateDay;
             if (foodArray[i].getFoodDay() < 10){
+
                 dateDay = Integer.toString(foodArray[i].getFoodDay());
                 dateDay = "0" + dateDay;
+                if (foodArray[i].getFoodDay() == 9){
+                    afterNinth = true;
+                }
+
             }
             else{
+                    afterNinth = true;
+
                 dateDay = Integer.toString(foodArray[i].getFoodDay());
             }
             String dateMonth;
             if (foodArray[i].getFoodMon() < 10){
                 dateMonth = Integer.toString(foodArray[i].getFoodMon());
                 dateMonth = "0" + dateMonth;
+                if (foodArray[i].getFoodMon() > 2){
+                    march = true;
+                    if (foodArray[i].getFoodMon() > 3){
+                        afterMarch = true;
+                    }
+                }
             }
             else{
+                afterMarch = true;
+                march = true;
                 dateMonth = Integer.toString(foodArray[i].getFoodMon());
             }
             String dateYear =  Integer.toString(foodArray[i].getFoodYr());
+
             dateStr = dateYear + dateMonth + dateDay;
 
             Date date1 = Calendar.getInstance().getTime();
@@ -84,11 +112,25 @@ public class CalendarFragment extends Fragment{
                 e.printStackTrace();
             }
 
+            if (foodArray[i].getFoodMon() > 10){
+                if (foodArray[i].getFoodDay() > 1){
+                    cancel = false;
+                }
+            }
+            if (foodArray[i].getFoodMon() == 12){
+                cancel = false;
+            }
 
 
             long diff = date1.getTime() - date2.getTime();
             long daysDiff = TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
             int difference = (int)daysDiff;
+            if (cancel && march && afterNinth ){
+                difference = difference +1;
+            }
+            if (cancel && afterMarch && !afterNinth){
+                difference = difference +1;
+            }
             calendar.add(Calendar.DAY_OF_MONTH, difference);
             if (difference < 0){
                 events.add(new EventDay(calendar,R.drawable.ic_alertpast));
@@ -101,9 +143,16 @@ public class CalendarFragment extends Fragment{
             i = i +1;
 
         }
-
-
+/*
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(R.attr.colorOnBackground, typedValue,true);
+        @ColorInt int color = typedValue.data;
+*/
         CalendarView calendarView = view.findViewById(R.id.calendarView);
+
+       // calendarView.setHeaderColor(R.attr.colorPrimaryDark);
+     //   calendarView.setHeaderLabelColor(R.attr.colorOnBackground);
         calendarView.setEvents(events);
 
 

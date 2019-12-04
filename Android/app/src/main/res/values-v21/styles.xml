@@ -21,4 +21,17 @@
         <item name = "android:windowNoTitle">true</item>
     </style>
 
+
+    <style name="LightTheme" parent="AppTheme">
+
+        <item name="bgColor">#ffffff</item>
+        <item name="labelColor">#0F0F0F</item>
+    </style>
+
+    <style name="DarkTheme" parent="AppTheme">
+        <item name="labelColor">#ffffff</item>
+        <item name="bgColor">#0F0F0F</item>
+        <item name="datePckrColor">#0F0F0F</item>
+    </style>
+
 </resources>

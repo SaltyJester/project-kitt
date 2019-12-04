@@ -5,11 +5,16 @@
     android:layout_height="match_parent">
 
     <com.applandeo.materialcalendarview.CalendarView
+
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:headerColor="@color/colorPrimaryDark"
         app:todayLabelColor="@color/colorAccent"
+        app:pagesColor="?attr/bgColor"
+        app:abbreviationsLabelsColor="?attr/labelColor"
+        app:abbreviationsBarColor="?attr/bgColor"
+        app:daysLabelsColor="?attr/labelColor"
         />
 
 </RelativeLayout>

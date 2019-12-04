@@ -1,5 +1,6 @@
 package com.project.kitt;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -10,8 +11,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -73,10 +76,17 @@ public class AddInfo extends AppCompatActivity {
         }
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, -1);
+        /* 
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = this.getBaseContext().getTheme();
+        theme.resolveAttribute(R.attr.datePckrColor, typedValue, true);
+        @ColorInt int theColor = typedValue.data;
+*/
         DatePickerBuilder builder = new DatePickerBuilder(this, listener)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
                 .setHeaderColor(R.color.colorPrimaryDark)
                 .setTodayLabelColor(R.color.colorAccent)
+       //         .setHeaderLabelColor(R.color.datePckr)
                 .setSelectionColor(R.color.colorPrimary)
                 .setDate(min);
 
