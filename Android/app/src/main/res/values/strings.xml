@@ -7,4 +7,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="snackbar_text">Food successfully consumed!</string>
     <string name="snackbar_undo">UNDO</string>
+    <string name="signOutButton">Sign Out</string>
 </resources>

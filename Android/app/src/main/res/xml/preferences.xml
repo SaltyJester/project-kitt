@@ -5,7 +5,7 @@
     <PreferenceCategory
         app:key="notifications category"
         app:title="Notifications"
-        />
+        >
 
     <SwitchPreferenceCompat
         app:key="Enable expiry notifications"
@@ -21,5 +21,10 @@
         app:entryValues="@array/notification_values"
         app:summary="Change when you get notified"
         />
+
+    <Preference app:title="Sign Out"
+        app:key="@string/signOutButton"
+        />
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
