@@ -9,7 +9,8 @@
 
     <SwitchPreferenceCompat
         app:key="Enable expiry notifications"
-        app:title="Enable expiry notifications"/>
+        app:title="Enable expiry notifications"
+        app:defaultValue="true"/>
 
     <MultiSelectListPreference
         app:key="notification frequency"

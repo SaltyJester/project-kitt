@@ -3,6 +3,7 @@ package com.project.kitt;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
 
 
 import com.applandeo.materialcalendarview.CalendarView;
@@ -33,14 +35,18 @@ public class AddInfo extends AppCompatActivity {
     int day = 0;
     int month = 0;
     int year = 0;
-    int i=0;
 
+    boolean notifPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //SharedPreferences notifSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        //System.out.println(notifSharedPref.getBoolean("notification frequency", notifPref));
+        /*if (notification_frequency){
+            System.out.println("notifications pref turned on");
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_info);
-
     }
 
     public void launchDatePicker(View v){
@@ -105,7 +111,7 @@ public class AddInfo extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> selections = sharedPrefs.getStringSet("notification frequency", null);
-        if((selections != null) && !selections.isEmpty()){
+        //if((selections != null) && !selections.isEmpty()){
             System.out.println("is not null");
             String[] selected = selections.toArray(new String[] {});
             if (selected.length != 0){
@@ -113,7 +119,7 @@ public class AddInfo extends AppCompatActivity {
                     setAlarm(s);
                 }
             }
-        }
+        //}
 
     }
     public void setAlarm(String s) {
@@ -131,6 +137,9 @@ public class AddInfo extends AppCompatActivity {
         long dayToMilli = AlarmManager.INTERVAL_DAY; //converts 24 hours to 1 day
         int amtDays;
         long reminderTime = 0L;
+        //long hourToMilli = AlarmManager.INTERVAL_HOUR;
+        //for testing
+        //long minuteToHour = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
         switch (s) {
             case "0":
                 reminderTime = inputtedDate;
@@ -140,15 +149,26 @@ public class AddInfo extends AppCompatActivity {
                 amtDays = 1;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
                 alarmDigit = "2";
+                if(System.currentTimeMillis() > reminderTime){
+                    calendar.set(Calendar.HOUR_OF_DAY, 8);
+                    //1 for pm, 0 for am
+                    calendar.set(Calendar.AM_PM, 1);
+                }
                 break;
             case "2":
                 amtDays = 3;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
                 alarmDigit = "3";
+                /*if(System.currentTimeMillis() > reminderTime){
+                    System.out.println("its after 3 days ");
+                }*/
                 break;
             case "3":
                 amtDays = 7;
                 reminderTime = inputtedDate - (amtDays * dayToMilli);
+                /*if(System.currentTimeMillis() > reminderTime){
+                    System.out.println("its after 1 week before ");
+                }*/
                 alarmDigit = "4";
                 break;
         }
