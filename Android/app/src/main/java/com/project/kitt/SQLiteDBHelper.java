@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SQLiteDBHelper extends SQLiteOpenHelper
 {
     public static final int DATABASE_VERSION = 1;
@@ -65,8 +68,31 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
 
         // While we're here, we might as well add the food object to the Firestore
         FirestoreDB firestoreDB = new FirestoreDB(null);
-        food.setFoodID((int) newRowId);
-        firestoreDB.addFood(food, (int) newRowId);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+        {
+            food.setFoodID((int) newRowId);
+            firestoreDB.addFood(food, (int) newRowId);
+        }
+
+        return newRowId;
+    }
+
+    public long addFoodFromFirebase(FoodDetail food)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues food_detail = new ContentValues();
+        food_detail.put(KEY_FOOD_NAME, food.getFoodName());
+        food_detail.put(KEY_FOOD_DAY,food.getFoodDay());
+        food_detail.put(KEY_FOOD_MON,food.getFoodMon());
+        food_detail.put(KEY_FOOD_YR,food.getFoodYr());
+
+        long newRowId = db.insert(TABLE_NAME, null, food_detail);
+        db.close();
+
+        // While we're here, we might as well add the food object to the Firestore
+//        FirestoreDB firestoreDB = new FirestoreDB(null);
+//        food.setFoodID((int) newRowId);
+//        firestoreDB.addFood(food, (int) newRowId);
 
         return newRowId;
     }
@@ -92,8 +118,19 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         db.delete(TABLE_NAME, KEY_FOOD_ID + "=?", new String[]{Integer.toString(index)});
 
         // While we're here we might as well delete the food object from the Firestore
-        FirestoreDB firestoreDB = new FirestoreDB(null);
-        firestoreDB.deleteFood(index);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+        {
+            FirestoreDB firestoreDB = new FirestoreDB(null);
+            firestoreDB.deleteFood(index);
+        }
+    }
+
+    public void deleteTable(String tableName)
+    {
+        String selectQuery = "DELETE FROM " + tableName;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(selectQuery);
+        db.close();
     }
 
     public FoodDetail[] getAllFood()
@@ -130,6 +167,24 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         return foodDetailsArray;
     }
 
+    public boolean hasObject(String id)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_FOOD_ID + " =?";
+
+        Cursor cursor = db.rawQuery(selectString, new String[] {id});
+
+        boolean hasObject = false;
+        if(cursor.moveToFirst())
+        {
+            hasObject = true;
+        }
+
+        cursor.close();
+        db.close();
+        return hasObject;
+    }
+
     public int getCount()
     {
         int count = 0;
@@ -140,6 +195,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         {
             count++;
         }
+        cr.close();
         db.close();
         return count;
     }
