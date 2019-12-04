@@ -72,7 +72,6 @@ public class AddInfo extends AppCompatActivity {
         cal.add(Calendar.DAY_OF_MONTH, -1);
         DatePickerBuilder builder = new DatePickerBuilder(this, listener)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
-                .setMinimumDate(Calendar.getInstance())
                 .setHeaderColor(R.color.colorPrimaryDark)
                 .setTodayLabelColor(R.color.colorAccent)
                 .setSelectionColor(R.color.colorPrimary)
