@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -49,7 +50,8 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.FoodVi
         Calendar c = Calendar.getInstance();
         c.set(foodList.get(position).getFoodYr(), foodList.get(position).getFoodMon() - 1, foodList.get(position).getFoodDay());
         if(c.before(Calendar.getInstance())){
-            holder.cv.setCardBackgroundColor(Color.GRAY);
+            holder.cv.setCardBackgroundColor(Color.parseColor("#FF4C4C4C"));
+            holder.image.setImageResource(R.drawable.placeholder_food_disabled);
         }
     }
 
@@ -67,9 +69,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.FoodVi
         CardView cv;
         TextView title;
         TextView subtitle;
+        ImageView image;
 
         FoodViewHolder(View itemView) {
             super(itemView);
+            image = (ImageView)itemView.findViewById(R.id.card_view_image);
             cv = (CardView)itemView.findViewById(R.id.card_base);
             title = (TextView)itemView.findViewById(R.id.card_title);
             subtitle = (TextView)itemView.findViewById(R.id.card_subtitle);
