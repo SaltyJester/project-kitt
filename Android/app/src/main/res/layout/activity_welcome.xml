@@ -59,6 +59,13 @@
                         android:layout_alignParentBottom="true"
                         android:layout_gravity="center|bottom"
                         android:layout_centerHorizontal="true" />
+
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="firebaseUI"
+                        android:text="firebase" />
                 </RelativeLayout>
 
                 <TextView

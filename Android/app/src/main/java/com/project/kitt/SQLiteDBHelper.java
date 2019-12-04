@@ -62,6 +62,12 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
 
         long newRowId = db.insert(TABLE_NAME, null, food_detail);
         db.close();
+
+        // While we're here, we might as well add the food object to the Firestore
+        FirestoreDB firestoreDB = new FirestoreDB(null);
+        food.setFoodID((int) newRowId);
+        firestoreDB.addFood(food, (int) newRowId);
+
         return newRowId;
     }
 
@@ -84,6 +90,10 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
     public void removeFood(int index){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY_FOOD_ID + "=?", new String[]{Integer.toString(index)});
+
+        // While we're here we might as well delete the food object from the Firestore
+        FirestoreDB firestoreDB = new FirestoreDB(null);
+        firestoreDB.deleteFood(index);
     }
 
     public FoodDetail[] getAllFood()

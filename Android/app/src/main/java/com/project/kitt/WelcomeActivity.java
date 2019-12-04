@@ -23,4 +23,12 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
+    // TEST CODE FOR FIREBASE UI START
+    public void firebaseUI(View view)
+    {
+        Intent intent = new Intent(this, TestFirebase.class);
+        startActivity(intent);
+    }
+    // TEST CODE FOR FIREBASE UI END
 }
