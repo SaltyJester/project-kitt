@@ -76,12 +76,13 @@ public class FirestoreDB
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
+                                SQLiteDBHelper dbHelper = new SQLiteDBHelper(mContext);
+                                dbHelper.deleteTable("food");
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
 //                                    System.out.println(document.getData());
                                     FoodDetail food = document.toObject(FoodDetail.class);
-                                    SQLiteDBHelper dbHelper = new SQLiteDBHelper(mContext);
-                                    dbHelper.addFood(food);
+                                    dbHelper.addFoodFromFirebase(food);
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());

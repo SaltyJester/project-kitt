@@ -52,13 +52,15 @@
                     android:layout_height="match_parent"
                     android:paddingBottom="150dp"
                     android:layout_centerHorizontal="true" >
+
                     <com.google.android.gms.common.SignInButton
                         android:id="@+id/sign_in_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
                         android:layout_gravity="center|bottom"
-                        android:layout_centerHorizontal="true" />
+                        android:onClick="signIn" />
 
                 </RelativeLayout>
 
