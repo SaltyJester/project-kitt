@@ -94,7 +94,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.FoodVi
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
                 SQLiteDBHelper helper = new SQLiteDBHelper(context);
-                helper.removeFood(mRecentlyDeletedItem.getFoodID());
+                helper.removeFood(mRecentlyDeletedItem.getFoodID(), context);
             }
 
             @Override

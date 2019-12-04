@@ -1,7 +1,10 @@
 package com.project.kitt;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,6 +12,7 @@ import android.provider.ContactsContract;
 
 public class SQLiteDBHelper extends SQLiteOpenHelper
 {
+
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "FoodDetails";
 
@@ -87,13 +91,34 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
 //        if(null != cursor)
 //    }
 
-    public void removeFood(int index){
+    public void removeFood(int index, Context ctx){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY_FOOD_ID + "=?", new String[]{Integer.toString(index)});
 
         // While we're here we might as well delete the food object from the Firestore
         FirestoreDB firestoreDB = new FirestoreDB(null);
         firestoreDB.deleteFood(index);
+
+        for(int i=0; i<4; i++){
+            String appendIndex = String.valueOf(index) + String.valueOf(i);
+            int id = Integer.parseInt(appendIndex);
+            System.out.println(appendIndex);
+
+            AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(ctx, myReceiver.class);
+            PendingIntent pi = PendingIntent.getBroadcast(ctx, id, intent, 0);
+            if(am != null){
+                am.cancel(pi);
+            }
+        }
+
+        //for testing
+        /*AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(ctx, myReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(ctx, 30, intent, 0);
+        if(am != null){
+            am.cancel(pi);
+        }*/
     }
 
     public FoodDetail[] getAllFood()
