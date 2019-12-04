@@ -3,9 +3,11 @@ package com.project.kitt;
 import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -13,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -70,25 +73,26 @@ public class AddInfo extends AppCompatActivity {
                 til.setText((month)+"/"+(day)+"/"+(year));
             }
         };
-        Calendar min = Calendar.getInstance();
-        if(day != 0){
-            min.set(year, month-1, day);
-        }
+        Calendar today = Calendar.getInstance();
+
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, -1);
-        /* 
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = this.getBaseContext().getTheme();
-        theme.resolveAttribute(R.attr.datePckrColor, typedValue, true);
-        @ColorInt int theColor = typedValue.data;
-*/
+
+        TypedValue value = new TypedValue();
+        this.getTheme().resolveAttribute(R.attr.bgColor, value, true);
+
         DatePickerBuilder builder = new DatePickerBuilder(this, listener)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
+                .setMinimumDate(today)
                 .setHeaderColor(R.color.colorPrimaryDark)
-                .setTodayLabelColor(R.color.colorAccent)
-       //         .setHeaderLabelColor(R.color.datePckr)
-                .setSelectionColor(R.color.colorPrimary)
-                .setDate(min);
+                .setPagesColor(R.color.colorPrimaryDark)
+                .setTodayLabelColor(R.color.calendar_light)
+                .setDaysLabelsColor(R.color.white)
+                .setAbbreviationsLabelsColor(R.color.white)
+                .setAbbreviationsBarColor(R.color.colorPrimaryDark)
+                .setSelectionColor(R.color.calendar_light)
+                .setDialogButtonsColor(R.color.white)
+                .setDate(today);
 
         DatePicker datePicker = builder.build();
         datePicker.show();

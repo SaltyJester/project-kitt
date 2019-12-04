@@ -3,5 +3,7 @@
     <color name="colorPrimary">#00A896</color>
     <color name="colorPrimaryDark">#028090</color>
     <color name="colorAccent">#3397C2</color>
+    <color name="white">#ffffff</color>
+    <color name="calendar_light">#FFC107</color>
     <color name ="datePckr">?attr/datePckrColor</color>
 </resources>
