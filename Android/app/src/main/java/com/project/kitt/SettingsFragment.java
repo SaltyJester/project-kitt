@@ -41,7 +41,7 @@ public class SettingsFragment extends PreferenceFragmentCompat{
                                 AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                                 alertDialog.setTitle("Signed Out");
                                 alertDialog.setMessage("Sign out successful!");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Thanks bro",
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Okay",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();

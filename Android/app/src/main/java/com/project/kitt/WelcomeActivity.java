@@ -30,6 +30,7 @@ public class WelcomeActivity extends AppCompatActivity {
         if(account != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            this.finish();
         }
     }
 
@@ -67,6 +68,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 System.out.println("Sign in SUCCEEDED!!!");
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                this.finish();
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
