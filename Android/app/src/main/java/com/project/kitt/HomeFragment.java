@@ -1,6 +1,7 @@
 package com.project.kitt;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,31 +16,44 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeFragment extends Fragment {
+    private static final String TAG = "TEST:  ";
+    CardViewAdapter mCardView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        RecyclerView recCards = (RecyclerView)root.findViewById(R.id.recyclerCardView);
+        RecyclerView recCards = (RecyclerView) root.findViewById(R.id.recyclerCardView);
+        setRetainInstance(true);
 
         recCards.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recCards.setLayoutManager(llm);
-        FoodDetail [] items = new SQLiteDBHelper(getActivity()).getAllFood();
-        if(items.length != 0){
+
+        FoodDetail[] items = new SQLiteDBHelper(getActivity()).getAllFood();
+        if (items.length != 0) {
             TextView ph0 = root.findViewById(R.id.placeholder0);
             ph0.setVisibility(View.GONE);
             TextView ph1 = root.findViewById(R.id.placeholder1);
             ph1.setVisibility(View.GONE);
         }
 
-        CardViewAdapter myCardView = new CardViewAdapter(items);
-        recCards.setAdapter(myCardView);
-        myCardView.setView(root);
+        mCardView = new CardViewAdapter(items);
+        recCards.setAdapter(mCardView);
+        mCardView.setView(root);
         ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new SwipeToDeleteCallback(myCardView, getContext()));
+                ItemTouchHelper(new SwipeToDeleteCallback(mCardView, getContext()));
         itemTouchHelper.attachToRecyclerView(recCards);
         return root;
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        mCardView.removeFoodPermanently();
+        System.out.println("We are here: ------ DESTROY!!!!" );
+
     }
 }

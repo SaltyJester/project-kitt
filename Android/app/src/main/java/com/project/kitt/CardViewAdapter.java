@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.sql.SQLInput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -26,7 +27,9 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.FoodVi
     int mRecentlyDeletedItemPosition;
     FoodDetail mRecentlyDeletedItem;
     Context context;
+    boolean waiting = false;
     View mRootView;
+    static Snackbar snackbar;
 
     public CardViewAdapter(FoodDetail[] food){
         this.foodList = new ArrayList(Arrays.asList(food));
@@ -37,6 +40,23 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.FoodVi
         View mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
         FoodViewHolder fvh = new FoodViewHolder(mView);
         context = parent.getContext();
+        View view = mRootView.findViewById(R.id.coordinator_home);
+        snackbar = Snackbar.make(view, R.string.snackbar_text,
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.snackbar_undo, v -> undoDelete());
+        snackbar.addCallback(new Snackbar.Callback() {
+
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                removeFoodPermanently();
+                waiting = false;
+            }
+
+            @Override
+            public void onShown(Snackbar snackbar) {
+                return;
+            }
+        });
         return fvh;
     }
 
@@ -81,32 +101,32 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.FoodVi
     }
 
     public void deleteItem(int position) {
+        if(waiting){
+            removeFoodPermanently();
+            waiting = false;
+        }
+        waiting = true;
         mRecentlyDeletedItem = foodList.get(position);
         mRecentlyDeletedItemPosition = position;
+        System.out.println("We are here: ------ " + mRecentlyDeletedItem.getFoodName());
         foodList.remove(position);
         notifyItemRemoved(position);
         showUndoSnackbar();
     }
 
     private void showUndoSnackbar() {
-        View view = mRootView.findViewById(R.id.coordinator_home);
-        Snackbar snackbar = Snackbar.make(view, R.string.snackbar_text,
-                Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.snackbar_undo, v -> undoDelete());
-        snackbar.addCallback(new Snackbar.Callback() {
-
-            @Override
-            public void onDismissed(Snackbar snackbar, int event) {
-                SQLiteDBHelper helper = new SQLiteDBHelper(context);
-                helper.removeFood(mRecentlyDeletedItem.getFoodID());
-            }
-
-            @Override
-            public void onShown(Snackbar snackbar) {
-                return;
-            }
-        });
+        System.out.println("We are here: ------ " + mRecentlyDeletedItem.getFoodName());
+        waiting = true;
         snackbar.show();
+    }
+
+    public void removeFoodPermanently(){
+        if(waiting == true) {
+            SQLiteDBHelper helper = new SQLiteDBHelper(context);
+            helper.removeFood(mRecentlyDeletedItem.getFoodID());
+            System.out.println("Removing food: " + mRecentlyDeletedItem.getFoodName() + "---------");
+            waiting = false;
+        }
     }
 
     public void setView(View view){

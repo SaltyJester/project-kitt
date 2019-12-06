@@ -83,7 +83,7 @@ public class AddInfo extends AppCompatActivity {
 
         DatePickerBuilder builder = new DatePickerBuilder(this, listener)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
-                .setMinimumDate(today)
+               // .setMinimumDate(today)
                 .setHeaderColor(R.color.colorPrimaryDark)
                 .setPagesColor(R.color.colorPrimaryDark)
                 .setTodayLabelColor(R.color.calendar_light)
@@ -132,6 +132,7 @@ public class AddInfo extends AppCompatActivity {
 
             Intent myIntent = new Intent(AddInfo.this, MainActivity.class);
             startActivity(myIntent);
+            this.finish();
         }
         if (addNotification){
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
