@@ -45,6 +45,7 @@ public class AddInfo extends AppCompatActivity {
     boolean addNotification = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //check to make sure the user wants to receive notifications
         SharedPreferences notifSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean notifChecked = notifSharedPref.getBoolean("Enable expiry notifications", false);
         if (notifChecked){
@@ -128,9 +129,11 @@ public class AddInfo extends AppCompatActivity {
             this.finish();
         }
         if (addNotification){
+            //check the mulitselection preferences for how often the user wants notifications for their food
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
             Set<String> selections = sharedPrefs.getStringSet("notification frequency", null);
             String[] selected = selections.toArray(new String[] {});
+            //if the users made 1 or more selections for their notification preferences, make a call to set alarm function
             if (selected.length != 0){
                 for (String s : selected) {
                     setAlarm(s);
@@ -140,6 +143,8 @@ public class AddInfo extends AppCompatActivity {
 
     }
     public void setAlarm(String s) {
+        //set calendar instance with dates specified from date picker/user input
+        //we want the user to recieve notifications at 11am for the days they choose
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
         calendar.add(Calendar.MONTH, -1);
@@ -148,7 +153,13 @@ public class AddInfo extends AppCompatActivity {
         calendar.set(Calendar.SECOND, 0);
 
         long inputtedDate = calendar.getTimeInMillis();
-        long dayToMilli = INTERVAL_DAY; //converts 24 hours to 1 day
+        //number of days is based on the user preferences, multiple by milliseconds in a day
+        //subtract inputted (expiration date) by the number of days before user chose in milliseconds
+        // case 0: day of expiry
+        // case 1: day before expiration date
+        // case 2: 3 days before expiration date
+        // case 3: 7 days before expiration date
+        long dayToMilli = INTERVAL_DAY;
         int amtDays;
         long reminderTime = 0L;
         switch (s) {
@@ -169,15 +180,11 @@ public class AddInfo extends AppCompatActivity {
                 break;
         }
 
-
-        String id = Integer.toString(dbIndexInt) + Integer.toString(i++);
         //alarmid is for example 40, 41, 42, 43 for the fifth item in db
+        String id = Integer.toString(dbIndexInt) + Integer.toString(i++);
         alarmID = Integer.parseInt(id);
-        System.out.println("adding alarm for: "  + alarmID);
-        System.out.println(foodName + "is the food name");
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, myReceiver.class);
-        intent.putExtra("foodName", foodName);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, alarmID, intent, 0);
         am.setExactAndAllowWhileIdle(RTC_WAKEUP, reminderTime, pendingIntent);
     }
