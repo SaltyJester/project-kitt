@@ -1,27 +1,18 @@
 package com.project.kitt;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
-import androidx.preference.SwitchPreferenceCompat;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.Switch;
-import android.widget.Toast;
-
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.DatePicker;
@@ -32,6 +23,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+
+import static android.app.AlarmManager.*;
 
 //for notifications: https://stackoverflow.com/questions/22928684/android-how-to-set-alarm-x-days-before-specific-date
 //for getting preferences: https://stackoverflow.com/questions/19799874/get-all-selected-entries-from-multiselectlistpreferencesharedpreferences
@@ -83,7 +76,7 @@ public class AddInfo extends AppCompatActivity {
 
         DatePickerBuilder builder = new DatePickerBuilder(this, listener)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
-               // .setMinimumDate(today)
+                // .setMinimumDate(today)
                 .setHeaderColor(R.color.colorPrimaryDark)
                 .setPagesColor(R.color.colorPrimaryDark)
                 .setTodayLabelColor(R.color.calendar_light)
@@ -151,13 +144,11 @@ public class AddInfo extends AppCompatActivity {
         calendar.set(year, month, day);
         calendar.add(Calendar.MONTH, -1);
         calendar.set(Calendar.HOUR_OF_DAY, 11);
-        //1 for pm, 0 for am
-        calendar.set(Calendar.AM_PM, 0);
-        calendar.set(Calendar.MINUTE, 00);
-        calendar.set(Calendar.SECOND, 00);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
 
         long inputtedDate = calendar.getTimeInMillis();
-        long dayToMilli = AlarmManager.INTERVAL_DAY; //converts 24 hours to 1 day
+        long dayToMilli = INTERVAL_DAY; //converts 24 hours to 1 day
         int amtDays;
         long reminderTime = 0L;
         switch (s) {
@@ -188,6 +179,6 @@ public class AddInfo extends AppCompatActivity {
         Intent intent = new Intent(this, myReceiver.class);
         intent.putExtra("foodName", foodName);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, alarmID, intent, 0);
-        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+        am.setExactAndAllowWhileIdle(RTC_WAKEUP, reminderTime, pendingIntent);
     }
 }
