@@ -51,6 +51,22 @@ public class CalendarFragment extends Fragment{
 
 
         while (i < arrayLength){
+            Calendar calendar = Calendar.getInstance();
+
+                calendar.set(foodArray[i].getFoodYr(), foodArray[i].getFoodMon() -1, foodArray[i].getFoodDay());
+           // calendar.set(2019,12,20);
+            Calendar calendar1 = Calendar.getInstance();
+            if (calendar.before(calendar1)){
+                events.add(new EventDay(calendar,R.drawable.ic_alertpast));
+            }
+            else{
+                events.add(new EventDay(calendar,R.drawable.ic_alert));
+            }
+
+                i = i +1;
+
+
+            /*
             boolean march = false;
             boolean afterNinth = false;
             boolean cancel = true;
@@ -141,7 +157,7 @@ public class CalendarFragment extends Fragment{
 
 
             i = i +1;
-
+*/
         }
 /*
         TypedValue typedValue = new TypedValue();

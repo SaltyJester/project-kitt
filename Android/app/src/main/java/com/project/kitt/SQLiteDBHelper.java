@@ -100,7 +100,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
 
         long newRowId = db.insert(TABLE_NAME, null, food_detail);
         db.close();
-
         return newRowId;
     }
 
@@ -118,6 +117,12 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
             FirestoreDB firestoreDB = new FirestoreDB(null);
             firestoreDB.deleteFood(index);
         }
+
+        /*
+           create the alarm id's by pulling id's from the db
+           check if each alarm id created is valid
+           if it is valid, delete it
+        */
         for(int i=0; i<4; i++){
             // add i to the id (this is what we set the alarmid as
             String appendIndex = String.valueOf(index) + String.valueOf(i);
