@@ -69,7 +69,6 @@ public class CalendarFragment extends Fragment{
         // add the events to our calendar
         calendarView.setEvents(events);
 
-
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
             public void onDayClick(EventDay eventDay) {
@@ -115,8 +114,6 @@ public class CalendarFragment extends Fragment{
 
                     j = j + 1;
                 }
-
-
 
                 if (!selectedFood.isEmpty()) { // if there is food expiring on day user selected
 

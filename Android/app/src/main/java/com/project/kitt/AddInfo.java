@@ -31,11 +31,12 @@ import static android.app.AlarmManager.*;
 //for alarm manager: https://stackoverflow.com/questions/34494910/setting-notification-alarm-in-an-android-application
 
 public class AddInfo extends AppCompatActivity {
-
+    // Variables to store the selected date
     int day = 0;
     int month = 0;
     int year = 0;
 
+    // Index of the item pushed to the database. This is used as an ID for the AlarmManager.
     long dbIndex;
     int alarmID;
     int i=0;
@@ -43,6 +44,7 @@ public class AddInfo extends AppCompatActivity {
     String foodName;
 
     boolean addNotification = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //check to make sure the user wants to receive notifications
@@ -55,6 +57,15 @@ public class AddInfo extends AppCompatActivity {
         setContentView(R.layout.activity_add_info);
     }
 
+    /*
+    *   Function launched when the expiration date field is clicked by the user.
+    *   Launches the DatePicker dialog and stores the date in the global variables.
+    *   Also sets the text of the expiration field to reflect the selected date.
+    *
+    *   @param: View v (Unused, required by Android)
+    *   @return: void
+    *
+     */
     public void launchDatePicker(View v){
         OnSelectDateListener listener = new OnSelectDateListener() {
             @Override
@@ -92,6 +103,17 @@ public class AddInfo extends AppCompatActivity {
         datePicker.show();
     }
 
+    /*
+    *   Function called by the onClick() of the FAB that indicates the completion of user input.
+    *   Does basic input sanitation to make sure all inputs are present and valid. If not, it displays
+    *   a dialog explaining so. Otherwise it adds the item to the DB using the helper class's function
+    *   and creates an Alarm for the expiration of the food.
+    *   Also returns the user back to the MainActivity.
+    *
+    *   @param: View v (Unused, but required by Android)
+    *   @return: void
+    *
+     */
     public void addItemToDB(View v){
         TextInputEditText itemName;
         itemName = findViewById(R.id.itemName);
