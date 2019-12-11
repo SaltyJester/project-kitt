@@ -11,6 +11,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * Everything in here is from: https://medium.com/@kitek/recyclerview-swipe-to-delete-easier-than-you-thought-cff67ff5e5f6
+ *
+ * Modified for our use case.
+ * 
+ */
+
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     private CardViewAdapter mAdapter;
     private Drawable icon;
@@ -34,7 +41,6 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
         mAdapter.deleteItem(position);
-        System.out.println("We are here: ------ " + position);
     }
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {

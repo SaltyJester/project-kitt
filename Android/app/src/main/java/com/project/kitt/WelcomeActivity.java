@@ -101,17 +101,4 @@ public class WelcomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // TEST CODE FOR FIREBASE UI START
-    public void firebaseUI(View view)
-    {
-        Intent intent = new Intent(this, TestFirebase.class);
-        startActivity(intent);
-    }
-
-    public void signIn(View view)
-    {
-        Intent intent = new Intent(this, FirebaseUIActivity.class);
-        startActivity(intent);
-    }
-    // TEST CODE FOR FIREBASE UI END
 }

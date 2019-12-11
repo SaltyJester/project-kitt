@@ -9,8 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-		<activity android:name=".TestFirebase"></activity>
-		<activity android:name=".FirebaseUIActivity"></activity>
         <activity android:name=".MainActivity" android:theme="@style/AppTheme"></activity>
         <activity android:name=".AddInfo" android:theme="@style/AppTheme"></activity>
         <activity
