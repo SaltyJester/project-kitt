@@ -135,14 +135,28 @@ public class AddInfo extends AppCompatActivity {
             String[] selected = selections.toArray(new String[] {});
             //if the users made 1 or more selections for their notification preferences, make a call to set alarm function
             if (selected.length != 0){
-                for (String s : selected) {
-                    setAlarm(s);
+                for (String chosen : selected) {
+                    setAlarm(chosen);
                 }
             }
         }
 
     }
-    public void setAlarm(String s) {
+
+    /**
+     *
+     * setAlarm function creates an alarm depending on the preferences for the inputted food items
+     * @param chosen is the preference that the user checked, either the first, second, third or fourth
+     * number of days is based on the user preferences, multiple by milliseconds in a day
+     * subtract inputted (expiration date) by the number of days before user chose in milliseconds
+     * case 0: day of expiry
+     * case 1: day before expiration date
+     * case 2: 3 days before expiration date
+     * case 3: 7 days before expiration date
+     *
+     */
+    public void setAlarm(String chosen) {
+
         //set calendar instance with dates specified from date picker/user input
         //we want the user to recieve notifications at 11am for the days they choose
         Calendar calendar = Calendar.getInstance();
@@ -152,17 +166,13 @@ public class AddInfo extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
-        long inputtedDate = calendar.getTimeInMillis();
         //number of days is based on the user preferences, multiple by milliseconds in a day
         //subtract inputted (expiration date) by the number of days before user chose in milliseconds
-        // case 0: day of expiry
-        // case 1: day before expiration date
-        // case 2: 3 days before expiration date
-        // case 3: 7 days before expiration date
+        long inputtedDate = calendar.getTimeInMillis();
         long dayToMilli = INTERVAL_DAY;
         int amtDays;
         long reminderTime = 0L;
-        switch (s) {
+        switch (chosen) {
             case "0":
                 reminderTime = inputtedDate;
                 break;

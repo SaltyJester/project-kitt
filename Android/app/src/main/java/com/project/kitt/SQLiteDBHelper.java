@@ -100,8 +100,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
 
         long newRowId = db.insert(TABLE_NAME, null, food_detail);
         db.close();
-
-
         return newRowId;
     }
 
@@ -126,16 +124,17 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
            if it is valid, delete it
         */
         for(int i=0; i<4; i++){
+            // add i to the id (this is what we set the alarmid as
             String appendIndex = String.valueOf(index) + String.valueOf(i);
             int id = Integer.parseInt(appendIndex);
-
             Intent intent = new Intent(ctx.getApplicationContext(), myReceiver.class);
             boolean alarmUp = (PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, PendingIntent.FLAG_NO_CREATE) != null);
+            // check is alarm id is valid, if so delete the alarm created
             if(alarmUp){
-                AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-                PendingIntent pi = PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, 0);
-                am.cancel(pi);
-                pi.cancel();
+                AlarmManager alarm = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+                PendingIntent pintent = PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, 0);
+                alarm.cancel(pintent);
+                pintent.cancel();
             }
         }
     }
