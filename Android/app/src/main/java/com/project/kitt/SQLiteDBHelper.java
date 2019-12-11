@@ -1,7 +1,10 @@
 package com.project.kitt;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -110,7 +113,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
       Given an Int ID, this function can delete a specific food item from the SQLite table. It'll
       also delete the food item from the Firestore database.
      */
-    public void removeFood(int index){
+    public void removeFood(int index, Context ctx){
+
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY_FOOD_ID + "=?", new String[]{Integer.toString(index)});
 
@@ -119,6 +123,20 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         {
             FirestoreDB firestoreDB = new FirestoreDB(null);
             firestoreDB.deleteFood(index);
+        }
+        for(int i=0; i<4; i++){
+            String appendIndex = String.valueOf(index) + String.valueOf(i);
+            int id = Integer.parseInt(appendIndex);
+
+            Intent intent = new Intent(ctx.getApplicationContext(), myReceiver.class);
+            boolean alarmUp = (PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, PendingIntent.FLAG_NO_CREATE) != null);
+            if(alarmUp){
+                //System.out.println(id + "IS VALID ALARM");
+                AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+                PendingIntent pi = PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, 0);
+                am.cancel(pi);
+                pi.cancel();
+            }
         }
     }
 

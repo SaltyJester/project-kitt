@@ -123,7 +123,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.FoodVi
     public void removeFoodPermanently(){
         if(waiting == true) {
             SQLiteDBHelper helper = new SQLiteDBHelper(context);
-            helper.removeFood(mRecentlyDeletedItem.getFoodID());
+            helper.removeFood(mRecentlyDeletedItem.getFoodID(), context);
             System.out.println("Removing food: " + mRecentlyDeletedItem.getFoodName() + "---------");
             waiting = false;
         }

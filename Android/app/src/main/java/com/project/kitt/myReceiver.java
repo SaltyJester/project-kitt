@@ -26,7 +26,6 @@ public class myReceiver extends BroadcastReceiver {
         stackBuilder.addNextIntent(goBack);
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(100, PendingIntent.FLAG_UPDATE_CURRENT);
         String nameOfFood = intent.getStringExtra("foodName");
-        System.out.println("IN THE ONRECIEVE: " + nameOfFood);
         createNotificationChannel(context);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
@@ -47,8 +46,7 @@ public class myReceiver extends BroadcastReceiver {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+            // Register the channel with the system
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
