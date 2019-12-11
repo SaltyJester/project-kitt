@@ -26,7 +26,6 @@ public class myReceiver extends BroadcastReceiver {
         stackBuilder.addNextIntent(goBack);
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(100, PendingIntent.FLAG_UPDATE_CURRENT);
         String nameOfFood = intent.getStringExtra("foodName");
-        System.out.println("IN THE ONRECIEVE: " + nameOfFood);
         createNotificationChannel(context);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);

@@ -185,6 +185,7 @@ public class AddInfo extends AppCompatActivity {
         alarmID = Integer.parseInt(id);
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, myReceiver.class);
+        intent.putExtra("foodName", foodName);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, alarmID, intent, 0);
         am.setExactAndAllowWhileIdle(RTC_WAKEUP, reminderTime, pendingIntent);
     }
