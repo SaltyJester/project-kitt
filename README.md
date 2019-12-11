@@ -1,6 +1,6 @@
 # project-kitt
 A repository for Project KITT. This is for CSE 115a.
-### Team Members:
+### Team Members
 - Devi Manivannan
 - Gabriella Millican
 - Young Choe
@@ -9,11 +9,11 @@ A repository for Project KITT. This is for CSE 115a.
 
 ## Installation Instructions
 1. Clone git repository or download zip file containing KITT project. 
-2. Open KITT project on Android Studio
-3. Run the project on the Android Studio emulator of your choice
+2. Open KITT project on Android Studio.
+3. Run the project on the Android Studio emulator of your choice.
 
 
-## Sources/References:
+## Sources/References
 - Calendar View and Date Picker -- [Applandeo Material-Calendar-View](https://github.com/Applandeo/Material-Calendar-View)
 - [AndroidX Libraries](https://developer.android.com/jetpack/androidx)
   - CardView 
