@@ -57,6 +57,11 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         this.onUpgrade(db, oldVersion, newVersion);
     }
 
+    /*
+      This function takes a FoodDetail object and stores its fields into a SQLite table. At the same
+      time this function is also initializing the FireStoreDB.class and using its functions to send
+      the fields to the Firestore database.
+     */
     public long addFood(FoodDetail food)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -80,6 +85,10 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         return newRowId;
     }
 
+    /*
+      Exact same function as above but edited to be specifically used in the FireStoreDB.class
+      Does not write to Firestore database.
+     */
     public long addFoodFromFirebase(FoodDetail food)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -100,23 +109,12 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         return newRowId;
     }
 
-//    public FoodDetail getFood(int food_id)
-//    {
-//        FoodDetail foodDetail = new FoodDetail();
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        // specify the columns to be fetched
-//        String[] columns = {KEY_FOOD_ID, KEY_FOOD_NAME, KEY_FOOD_DATE};
-//        // select condition
-//        String selection = KEY_FOOD_ID + " = ?";
-//        // arguments for selection
-//        String[] selectionArgs = {String.valueOf(food_id)};
-//
-//        Cursor cursor = db.query(TABLE_NAME, columns, selection,
-//                selectionArgs, null, null, null);
-//        if(null != cursor)
-//    }
-
+    /*
+      Given an Int ID, this function can delete a specific food item from the SQLite table. It'll
+      also delete the food item from the Firestore database.
+     */
     public void removeFood(int index, Context ctx){
+
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY_FOOD_ID + "=?", new String[]{Integer.toString(index)});
 
@@ -142,6 +140,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         }
     }
 
+    /*
+      This function will drop all entries from the SQLite table
+     */
     public void deleteTable(String tableName)
     {
         String selectQuery = "DELETE FROM " + tableName;
@@ -150,6 +151,10 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         db.close();
     }
 
+    /*
+      This function gets all entries from the SQLite table and puts the data into a FoodDetail
+      object. It returns an array of FoodDetail objects.
+     */
     public FoodDetail[] getAllFood()
     {
         int length = getCount();
@@ -184,6 +189,10 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         return foodDetailsArray;
     }
 
+    /*
+      This function checks to see if a food entry with a certain ID already exists in the table.
+      This is currently unimplemented and untested.
+     */
     public boolean hasObject(String id)
     {
         SQLiteDatabase db = getWritableDatabase();
@@ -202,6 +211,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         return hasObject;
     }
 
+    /*
+      This function is used to get the amount of entries in the SQLite table
+     */
     public int getCount()
     {
         int count = 0;
