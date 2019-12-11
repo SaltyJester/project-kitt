@@ -14,10 +14,17 @@ import androidx.core.app.NotificationManagerCompat;
 
 //for alarm manager: https://stackoverflow.com/questions/34494910/setting-notification-alarm-in-an-android-application
 //for notification builder & channel: https://www.youtube.com/watch?v=ub4_f6ksxL0
+
 public class myReceiver extends BroadcastReceiver {
     private static final int uniqueID = 0;
-    private final String CHANNEL_ID = "channelTest";
-    PendingIntent pi;
+    private final String CHANNEL_ID = "channel";
+
+    /**
+     * The goBack intent is used for when the user clicks on the notification it takes them back to the app
+     * @param context needed to create the notification channel and intents
+     * @param intent used to get the name of the food since it was passed through the intent when setting alarm
+     */
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent goBack = new Intent(context, MainActivity.class);
@@ -32,11 +39,19 @@ public class myReceiver extends BroadcastReceiver {
         builder.setContentTitle("Don't forget, "+ nameOfFood + " is expiring soon!");
         builder.setContentText("You have food expiring soon! Please check app for details.");
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        builder.setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+        builder.setContentIntent(pendingIntent);
+        builder.setAutoCancel(true);
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(uniqueID, builder.build());
     }
+
+    /**
+     *
+     * Notification channel is the group for the food notifications
+     * @param context used to register the channel with the system
+     *
+     */
+
     private void createNotificationChannel(Context context) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
