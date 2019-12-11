@@ -43,132 +43,30 @@ public class CalendarFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         List<EventDay> events = new ArrayList<>();
-
         SQLiteDBHelper db = new SQLiteDBHelper(getContext());
         foodArray = db.getAllFood();
         int i = 0;
         arrayLength = foodArray.length;
 
-
+        // loop to cycle through all foods in database and add icon events for them
         while (i < arrayLength){
             Calendar calendar = Calendar.getInstance();
-
-                calendar.set(foodArray[i].getFoodYr(), foodArray[i].getFoodMon() -1, foodArray[i].getFoodDay());
-           // calendar.set(2019,12,20);
-            Calendar calendar1 = Calendar.getInstance();
-            if (calendar.before(calendar1)){
+            calendar.set(foodArray[i].getFoodYr(), foodArray[i].getFoodMon() -1, foodArray[i].getFoodDay());
+            // month -1 because calendar month is indexed starting at 0
+            Calendar calendarToday = Calendar.getInstance();
+            // if user expiration date is before today, set the icon color to be grey
+            if (calendar.before(calendarToday)){
                 events.add(new EventDay(calendar,R.drawable.ic_alertpast));
             }
             else{
                 events.add(new EventDay(calendar,R.drawable.ic_alert));
             }
-
-                i = i +1;
-
-
-            /*
-            boolean march = false;
-            boolean afterNinth = false;
-            boolean cancel = true;
-            boolean afterMarch = false;
-
-            Calendar calendar = Calendar.getInstance();
-            String dateStr;
-            String dateDay;
-            if (foodArray[i].getFoodDay() < 10){
-
-                dateDay = Integer.toString(foodArray[i].getFoodDay());
-                dateDay = "0" + dateDay;
-                if (foodArray[i].getFoodDay() == 9){
-                    afterNinth = true;
-                }
-
-            }
-            else{
-                    afterNinth = true;
-
-                dateDay = Integer.toString(foodArray[i].getFoodDay());
-            }
-            String dateMonth;
-            if (foodArray[i].getFoodMon() < 10){
-                dateMonth = Integer.toString(foodArray[i].getFoodMon());
-                dateMonth = "0" + dateMonth;
-                if (foodArray[i].getFoodMon() > 2){
-                    march = true;
-                    if (foodArray[i].getFoodMon() > 3){
-                        afterMarch = true;
-                    }
-                }
-            }
-            else{
-                afterMarch = true;
-                march = true;
-                dateMonth = Integer.toString(foodArray[i].getFoodMon());
-            }
-            String dateYear =  Integer.toString(foodArray[i].getFoodYr());
-
-            dateStr = dateYear + dateMonth + dateDay;
-
-            Date date1 = Calendar.getInstance().getTime();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-            try {
-                date1 = sdf.parse(dateStr);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-
-            Date todayDate = Calendar.getInstance().getTime();
-            String today = sdf.format(todayDate);
-            Date date2 = Calendar.getInstance().getTime();
-            try {
-                date2 = sdf.parse(today);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            if (foodArray[i].getFoodMon() > 10){
-                if (foodArray[i].getFoodDay() > 1){
-                    cancel = false;
-                }
-            }
-            if (foodArray[i].getFoodMon() == 12){
-                cancel = false;
-            }
-
-
-            long diff = date1.getTime() - date2.getTime();
-            long daysDiff = TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
-            int difference = (int)daysDiff;
-            if (cancel && march && afterNinth ){
-                difference = difference +1;
-            }
-            if (cancel && afterMarch && !afterNinth){
-                difference = difference +1;
-            }
-            calendar.add(Calendar.DAY_OF_MONTH, difference);
-            if (difference < 0){
-                events.add(new EventDay(calendar,R.drawable.ic_alertpast));
-            }
-            else{
-                events.add(new EventDay(calendar,R.drawable.ic_alert));
-            }
-
 
             i = i +1;
-*/
         }
-/*
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = getContext().getTheme();
-        theme.resolveAttribute(R.attr.colorOnBackground, typedValue,true);
-        @ColorInt int color = typedValue.data;
-*/
-        CalendarView calendarView = view.findViewById(R.id.calendarView);
 
-       // calendarView.setHeaderColor(R.attr.colorPrimaryDark);
-     //   calendarView.setHeaderLabelColor(R.attr.colorOnBackground);
+        CalendarView calendarView = view.findViewById(R.id.calendarView);
+        // add the events to our calendar
         calendarView.setEvents(events);
 
 
@@ -180,13 +78,16 @@ public class CalendarFragment extends Fragment{
                 Date daySelected = clickedDayCalendar.getTime();
                 SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
                 String date2 = sdf2.format(daySelected);
-
+                // convert day clicked to string
                 int j = 0;
                 int listLen = 0;
                 List<FoodDetail> selectedFood = new ArrayList<>();
 
-                while (j < arrayLength) {
+                while (j < arrayLength) { // list of selected food aka food expiring on
+                                        // selected day cant be longer than total food list
                     String dateStr2;
+                    //check if day and month are less than 10 to append a 0, because the
+                    // selected day is stored with two numbers, so 9 would be 09
                     String dateDay2;
                     if (foodArray[j].getFoodDay() < 10){
                         dateDay2 = Integer.toString(foodArray[j].getFoodDay());
@@ -203,62 +104,35 @@ public class CalendarFragment extends Fragment{
                     else{
                         dateMonth2 = Integer.toString(foodArray[j].getFoodMon());
                     }
-                    System.out.println(foodArray[j].getFoodDay());
-                    System.out.println(foodArray[j].getFoodMon());
                     String dateYear2 =  Integer.toString(foodArray[j].getFoodYr());
-                    System.out.println(foodArray[j].getFoodYr());
-                    System.out.println(date2);
-                    dateStr2 = dateYear2 + dateMonth2 + dateDay2;
-                    System.out.println(dateStr2);
+                    dateStr2 = dateYear2 + dateMonth2 + dateDay2; // the food in the database as string
 
-
-                    if (dateStr2.equals(date2)) {
+                    if (dateStr2.equals(date2)) { // if a food in database has same expiration
+                                                    // date as the day selected by user
                         selectedFood.add(foodArray[j]);
                         listLen = listLen +1;
                     }
 
-
                     j = j + 1;
                 }
-                if (!selectedFood.isEmpty()) {
-                    System.out.println("NOT EMPTY");
+
+
+
+                if (!selectedFood.isEmpty()) { // if there is food expiring on day user selected
+
                     String message = "";
-                    for (int i = 0; i<listLen; i++){
+                    for (int i = 0; i<listLen; i++){ // add foods in selected food to a string
                         String str = selectedFood.get(i).getFoodName();
                         message = message + str + "\n";
-
                     }
-
-                    Date date11 = Calendar.getInstance().getTime();
-                    Date date22 = Calendar.getInstance().getTime();
-                    String todaysDate = sdf2.format(date22);
-                    try {
-                        date11 = sdf2.parse(date2);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        date22 = sdf2.parse(todaysDate);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    long diff = date11.getTime() - date22.getTime();
-                    long daysDiff = TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
-                    int difference = (int)daysDiff;
-                    if (difference < 0){
+                    //show a different message if the food has already expired
+                    if (clickedDayCalendar.before(Calendar.getInstance()))  {
                         showAddPastItemDialog(getContext(),message);
                     }
                     else{
                         showAddItemDialog(getContext(),message);
                     }
-
                 }
-                else{
-                    System.out.println("EMPTY");
-                }
-
             }
         });
 
@@ -266,6 +140,14 @@ public class CalendarFragment extends Fragment{
         return view;
     }
 
+    /**
+     *
+     * @param c
+     * @param message
+     *
+     * inputs are the context and the message of foods expiring on the day selected
+     * the following methods show a dialog pop up of the foods expiring
+     */
     private void showAddItemDialog(Context c, String message){
 
         AlertDialog dialog = new AlertDialog.Builder(c)
