@@ -26,10 +26,11 @@ public class FirebaseUIActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firebase_ui);
-//        createSignInIntent();
-//        System.out.println("HEY LOOK OVER HERE TO SEE IF I WORK");
     }
 
+    /*
+      This function allows the app to authenticate a user using his or her google account.
+     */
     public void createSignInIntent(View view)
     {
         // [START auth_fui_create_intent]
@@ -72,7 +73,9 @@ public class FirebaseUIActivity extends AppCompatActivity {
     }
     // [END auth_fui_result]
 
-    // TEST CODE START
+    /*
+      This function allows a user to sign out of the app
+     */
     public void signOut(View view) {
         // [START auth_fui_signout]
         AuthUI.getInstance()
@@ -84,18 +87,4 @@ public class FirebaseUIActivity extends AppCompatActivity {
                 });
         // [END auth_fui_signout]
     }
-
-    // FOR TESTING PURPOSES
-    public void writeData()
-    {
-        FirestoreDB firestoreHelper = new FirestoreDB(this);
-    }
-
-    public void readData()
-    {
-        FirestoreDB firestoreHelper = new FirestoreDB(this);
-        firestoreHelper.getAllFood();
-
-    }
-    // TEST CODE START
 }

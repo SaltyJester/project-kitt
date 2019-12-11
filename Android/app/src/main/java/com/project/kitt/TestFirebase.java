@@ -9,6 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+    /*
+      This class if only for testing purposes. It is not implemented in the actual product release.
+     */
+
 public class TestFirebase extends AppCompatActivity {
 
     @Override

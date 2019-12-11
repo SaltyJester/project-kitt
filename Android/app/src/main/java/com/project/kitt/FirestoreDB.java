@@ -40,9 +40,15 @@ public class FirestoreDB
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /*
+      This function takes a FoodDetail object and sends its fields to the Firestore database. It
+      first checks to see if a user is logged in. If not, the function does nothing. If logged in,
+      the function attempts to write ot the Firestore. If successful, it will give a "success"
+      message in the system log. If there was a problem, it will give a "failure" message in the
+      system log instead.
+     */
     public void addFood(FoodDetail food, int id) // test writing to database
     {
-        // Check to see if user is logged in, otherwise prompt user to login (NOT FINISHED)
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -63,6 +69,12 @@ public class FirestoreDB
         }
     }
 
+    /*
+      This function reads from the user's collection of "foods" from the Firestore database. It
+      first checks to see if the user is logged in before proceeding to read from the database. Once
+      it successfully reads from the database, it'll update the SQLite database locally stored on
+      the device. If unsuccessful an error message will appear in the system logs.
+     */
     public void getAllFood()
     {
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
@@ -92,6 +104,13 @@ public class FirestoreDB
         }
     }
 
+    /*
+      This function deletes a user's food object from the Firestore database. It first checks to see
+      if a user is logged in. Each food object was initially given an Int ID before it was uploaded
+      to the Firestore. This ID should match the item's ID in the local SQLite database. If deletion
+      is successful a message is printed in the system logs. If not, an error message will be given
+      in the system logs.
+     */
     public void deleteFood(int id)
     {
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
