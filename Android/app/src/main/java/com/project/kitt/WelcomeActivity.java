@@ -39,9 +39,12 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         setContentView(R.layout.activity_welcome);
+
+        // set the custom logo
         ImageView logo = findViewById(R.id.imageView2);
         int imageResource = getResources().getIdentifier("@drawable/the_tree2", null, this.getPackageName());
         logo.setImageResource(imageResource);
+
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

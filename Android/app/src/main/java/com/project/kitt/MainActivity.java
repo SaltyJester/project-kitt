@@ -22,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //check if dark mode is enabled, if so, then manually change colors in calendar
+        // to dark theme, otherwise keep normal calendar colors. Implemented because
+        // calendar did not respect the theme, while all other fragments did
         int nightModeFlags =
                 this.getBaseContext().getResources().getConfiguration().uiMode &
                         Configuration.UI_MODE_NIGHT_MASK;
@@ -35,13 +39,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case Configuration.UI_MODE_NIGHT_UNDEFINED:
-
                 break;
         }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        //start in the home fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+
+        // bottom nav bar that appears for all fragments
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
@@ -52,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
            Fragment selectedFragment = new HomeFragment();
+           // start a new fragment when user selects different tab on bottom nav bar
            switch (menuItem.getItemId()){
-
+                // id from tab selected in res/menu/bottom_nav.xml
                case R.id.nav_home:
                    selectedFragment = new HomeFragment();
                    break;
@@ -67,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                    break;
 
            }
+           //display the chosen fragment
            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
         return true;
         }
