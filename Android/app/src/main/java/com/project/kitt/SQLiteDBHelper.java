@@ -101,10 +101,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         long newRowId = db.insert(TABLE_NAME, null, food_detail);
         db.close();
 
-        // While we're here, we might as well add the food object to the Firestore
-//        FirestoreDB firestoreDB = new FirestoreDB(null);
-//        food.setFoodID((int) newRowId);
-//        firestoreDB.addFood(food, (int) newRowId);
 
         return newRowId;
     }
@@ -118,12 +114,17 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY_FOOD_ID + "=?", new String[]{Integer.toString(index)});
 
-        // While we're here we might as well delete the food object from the Firestore
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
             FirestoreDB firestoreDB = new FirestoreDB(null);
             firestoreDB.deleteFood(index);
         }
+
+        /*
+           create the alarm id's by pulling id's from the db
+           check if each alarm id created is valid
+           if it is valid, delete it
+        */
         for(int i=0; i<4; i++){
             String appendIndex = String.valueOf(index) + String.valueOf(i);
             int id = Integer.parseInt(appendIndex);
@@ -131,7 +132,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper
             Intent intent = new Intent(ctx.getApplicationContext(), myReceiver.class);
             boolean alarmUp = (PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, PendingIntent.FLAG_NO_CREATE) != null);
             if(alarmUp){
-                //System.out.println(id + "IS VALID ALARM");
                 AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
                 PendingIntent pi = PendingIntent.getBroadcast(ctx.getApplicationContext(), id, intent, 0);
                 am.cancel(pi);
